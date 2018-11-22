@@ -1,0 +1,3 @@
+[submodule "ThirdParty/QCodeEditor"]
+	path = ThirdParty/QCodeEditor
+	url = https://github.com/jm4R/QCodeEditor.git
