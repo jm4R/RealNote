@@ -71,7 +71,7 @@ void NoteModel::save()
 
     archiveCurrentVersion();
     const auto fullPath = getCurrentVersionPath();
-    save(fullPath, _document.toRawText());
+    save(fullPath, _document.toPlainText());
     preventHistoricalVersionsOverload();
     _state = LOADED;
 
