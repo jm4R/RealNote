@@ -18,6 +18,11 @@ namespace Global
         return ".history";
     }
 
+    inline const char* notesDirName()
+    {
+        return "notes";
+    }
+
     inline int historyCapacity()
     {
         return 10;

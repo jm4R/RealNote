@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+CONFIG += c++17
 
 TARGET = RealNote
 TEMPLATE = app
@@ -26,11 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    TreeView.cpp \
-    NoteModel.cpp \
     MainController.cpp \
-    View/FeaturedTextEdit.cpp \
-    NotesContainer.cpp \
     ThirdParty/QCodeEditor/src/Design/QCodeEditorDesign.cpp \
     ThirdParty/QCodeEditor/src/Design/QCodeEditorSheets.cpp \
     ThirdParty/QCodeEditor/src/Design/QLineColumnPadding.cpp \
@@ -42,16 +38,16 @@ SOURCES += \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorLineWidget.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorPopup.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorSlots.cpp \
-    ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp
+    ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp \
+    View/MainView.cpp \
+    View/MainMenu.cpp \
+    FilesUtils.cpp \
+    Model/NoteModel.cpp \
+    Model/NotesContainer.cpp \
+    Model/ApplicationContext.cpp \
+    Model/CategorizedListModel.cpp
 
 HEADERS += \
-        MainWindow.h \
-    TreeView.h \
-    NoteModel.h \
-    MainController.h \
-    Model/Global.h \
-    View/FeaturedTextEdit.h \
-    NotesContainer.h \
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorDesign.hpp \
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorSheets.hpp \
     ThirdParty/QCodeEditor/include/KGL/Design/QLineColumnPadding.hpp \
@@ -62,10 +58,20 @@ HEADERS += \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorLineWidget.hpp \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorPopup.hpp \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorTextFinder.hpp \
-    ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp
-
-FORMS += \
-        MainWindow.ui
+    ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp \
+    View/QtUtils.hpp \
+    View/MainView.hpp \
+    View/TextEditor.hpp \
+    View/MainMenu.hpp \
+    FilesUtils.hpp \
+    MainController.hpp \
+    MainWindow.hpp \
+    Model/Global.hpp \
+    Commands.hpp \
+    Model/ApplicationContext.hpp \
+    Model/NoteModel.hpp \
+    Model/NotesContainer.hpp \
+    Model/CategorizedListModel.hpp
 
 INCLUDEPATH += \
     ThirdParty/QCodeEditor/include

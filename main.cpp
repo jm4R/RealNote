@@ -1,9 +1,9 @@
-#include "MainController.h"
-#include <QApplication>
+#include "MainController.hpp"
+#include "Model/ApplicationContext.hpp"
 
 int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
+    Application a(argc, argv);
 
     try
     {
@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     }
     catch (int&)
     {
-        //other instance runs
+        // other instance runs
     }
     return 0;
 }
