@@ -26,7 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    TreeView.cpp \
     NoteModel.cpp \
     MainController.cpp \
     View/FeaturedTextEdit.cpp \
@@ -42,11 +41,11 @@ SOURCES += \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorLineWidget.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorPopup.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorSlots.cpp \
-    ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp
+    ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp \
+    CategorizedListModel.cpp
 
 HEADERS += \
         MainWindow.h \
-    TreeView.h \
     NoteModel.h \
     MainController.h \
     Model/Global.h \
@@ -62,7 +61,8 @@ HEADERS += \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorLineWidget.hpp \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorPopup.hpp \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorTextFinder.hpp \
-    ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp
+    ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp \
+    CategorizedListModel.h
 
 FORMS += \
         MainWindow.ui

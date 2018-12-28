@@ -90,6 +90,11 @@ const QStringList& NoteModel::versions() const
     return _versions;
 }
 
+QString NoteModel::name() const
+{
+    return _fileName;
+}
+
 QString NoteModel::humanReadableVersion(QString version)
 {
     return QDateTime::fromMSecsSinceEpoch(version.toLongLong()).toString(Qt::SystemLocaleShortDate);

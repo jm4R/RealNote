@@ -9,6 +9,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class QAbstractItemModel;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,6 +20,7 @@ public:
     ~MainWindow();
 
     void setNote(NoteModel& note);
+    void setNotesTreeModel(QAbstractItemModel* model);
     void updateNote();
 
 signals:

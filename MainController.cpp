@@ -1,6 +1,7 @@
 #include "MainController.h"
 
 #include "Model/Global.h"
+#include "NotesContainer.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -14,10 +15,11 @@ MainController::MainController(QObject* parent)
     QFile file("qrc:/dark.css");
     const auto qss = QString::fromUtf8(file.readAll());
     qDebug() << qss;
-    qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color: #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323 }");
+    //qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color: #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323 }");
 
     connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
     window_.show();
+    window_.setNotesTreeModel(new NotesContainer{this});
     window_.setNote(note_);
 
     {

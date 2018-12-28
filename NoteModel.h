@@ -10,12 +10,14 @@ class NoteModel
 {
 public:
     NoteModel(const QString& fileName);
+    NoteModel(NoteModel&& other) = default;
 
     void load();
     void save();
     void unload();
     QTextDocument& document();
     const QStringList& versions() const;
+    QString name() const;
 
     static QString humanReadableVersion(QString version);
 
