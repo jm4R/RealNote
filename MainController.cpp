@@ -1,26 +1,23 @@
-#include "MainController.h"
+#include "MainController.hpp"
 
-#include "Model/Global.h"
-#include "NotesContainer.h"
+#include "Model/Global.hpp"
 
 #include <QApplication>
 #include <QDebug>
 #include <QLocalServer>
 #include <QLocalSocket>
 
-MainController::MainController(QObject* parent)
-    : QObject(parent)
-    , note_{"DefaultNote"}
+MainController::MainController(QObject* parent) : QObject{parent}, note_{nullptr}
 {
-    QFile file("qrc:/dark.css");
-    const auto qss = QString::fromUtf8(file.readAll());
-    qDebug() << qss;
-    //qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color: #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323 }");
+    // QFile file("qrc:/dark.css");
+    // const auto qss = QString::fromUtf8(file.readAll());
+    // qDebug() << qss;
+    // qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color:
+    // #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323
+    // }");
 
-    connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
     window_.show();
-    window_.setNotesTreeModel(new NotesContainer{this});
-    window_.setNote(note_);
+    window_.setNotesTreeModel(notes_);
 
     {
         QLocalSocket socket;
@@ -37,15 +34,28 @@ MainController::MainController(QObject* parent)
     server->setSocketOptions(QLocalServer::WorldAccessOption);
     server->listen(Global::appUuid());
     QObject::connect(server, &QLocalServer::newConnection, [&] {
-        // Solution not portable: https://stackoverflow.com/questions/6087887/bring-window-to-front-raise-show-activatewindow-don-t-work
+        // Solution not portable:
+        // https://stackoverflow.com/questions/6087887/bring-window-to-front-raise-show-activatewindow-don-t-work
         window_.activateWindow();
         window_.raise();
-        window_.setWindowState( (window_.windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        window_.setWindowState((window_.windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+    });
+
+    connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
+    connect(&window_, &MainWindow::noteChoosed, [&](const QModelIndex& index) {
+        NoteModel* note = notes_.noteAt(index); // TODO: move from here
+        if (note)
+        {
+            window_.setNote(*note);
+            note_ = note;
+        }
     });
 }
 
 void MainController::save()
 {
-    note_.save();
+    if (!note_)
+        return;
+    note_->save();
     window_.updateNote();
 }

@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+CONFIG += c++17
 
 TARGET = RealNote
 TEMPLATE = app
@@ -28,7 +28,6 @@ SOURCES += \
         MainWindow.cpp \
     NoteModel.cpp \
     MainController.cpp \
-    View/FeaturedTextEdit.cpp \
     NotesContainer.cpp \
     ThirdParty/QCodeEditor/src/Design/QCodeEditorDesign.cpp \
     ThirdParty/QCodeEditor/src/Design/QCodeEditorSheets.cpp \
@@ -42,15 +41,12 @@ SOURCES += \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorPopup.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorSlots.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp \
-    CategorizedListModel.cpp
+    CategorizedListModel.cpp \
+    View/MainView.cpp \
+    View/MainMenu.cpp \
+    FilesUtils.cpp
 
 HEADERS += \
-        MainWindow.h \
-    NoteModel.h \
-    MainController.h \
-    Model/Global.h \
-    View/FeaturedTextEdit.h \
-    NotesContainer.h \
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorDesign.hpp \
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorSheets.hpp \
     ThirdParty/QCodeEditor/include/KGL/Design/QLineColumnPadding.hpp \
@@ -62,10 +58,17 @@ HEADERS += \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorPopup.hpp \
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorTextFinder.hpp \
     ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp \
-    CategorizedListModel.h
-
-FORMS += \
-        MainWindow.ui
+    View/QtUtils.hpp \
+    View/MainView.hpp \
+    View/TextEditor.hpp \
+    View/MainMenu.hpp \
+    FilesUtils.hpp \
+    CategorizedListModel.hpp \
+    MainController.hpp \
+    MainWindow.hpp \
+    NoteModel.hpp \
+    NotesContainer.hpp \
+    Model/Global.hpp
 
 INCLUDEPATH += \
     ThirdParty/QCodeEditor/include

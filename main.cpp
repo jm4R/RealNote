@@ -1,4 +1,4 @@
-#include "MainController.h"
+#include "MainController.hpp"
 #include <QApplication>
 
 int main(int argc, char* argv[])
@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     }
     catch (int&)
     {
-        //other instance runs
+        // other instance runs
     }
     return 0;
 }

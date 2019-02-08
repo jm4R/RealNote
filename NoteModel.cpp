@@ -1,37 +1,17 @@
-#include "NoteModel.h"
+#include "NoteModel.hpp"
 
-#include "Model/Global.h"
+#include "FilesUtils.hpp"
+#include "Model/Global.hpp"
 
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
 #include <QPlainTextDocumentLayout>
-#include <QStandardPaths>
 #include <QTextStream>
 
-namespace {
-
-void cdOrCreate(QDir& dir, const QString& dirName)
-{
-    if (!dir.cd(dirName))
-    {
-        if (!dir.mkdir(dirName))
-        {
-            // TODO
-        }
-        dir.cd(dirName);
-    }
-}
-
-} // namespace
-
-const QString NoteModel::DATA_LOCATION =
-    QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-
-NoteModel::NoteModel(const QString& fileName)
-    : _state{NOT_LOADED}
-    , _fileName(fileName)
+NoteModel::NoteModel(const QString& categoryName, const QString& fileName)
+    : _state{NOT_LOADED}, _categoryName{categoryName}, _fileName{fileName}
 {
     auto l = new QPlainTextDocumentLayout{&_document}; // TODO
     _document.setDocumentLayout(l);
@@ -102,17 +82,17 @@ QString NoteModel::humanReadableVersion(QString version)
 
 QString NoteModel::getCurrentVersionPath() const
 {
-    QDir dir{DATA_LOCATION};
-    cdOrCreate(dir, Global::appName());
+    QDir dir = Dir::dataDir();
+    Dir::cdOrCreate(dir, _categoryName);
     return dir.filePath(_fileName);
 }
 
 QDir NoteModel::getHistoricalVersionsPath() const
 {
-    QDir dir{DATA_LOCATION};
-    cdOrCreate(dir, Global::appName());
-    cdOrCreate(dir, Global::historyDirName());
-    cdOrCreate(dir, _fileName);
+    QDir dir = Dir::dataDir();
+    Dir::cdOrCreate(dir, _categoryName);
+    Dir::cdOrCreate(dir, Global::historyDirName());
+    Dir::cdOrCreate(dir, _fileName);
     return dir;
 }
 

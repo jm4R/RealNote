@@ -1,10 +1,10 @@
 #ifndef NOTESCONTAINER_H
 #define NOTESCONTAINER_H
 
-#include "CategorizedListModel.h"
+#include "CategorizedListModel.hpp"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 class NoteModel;
 
@@ -16,21 +16,21 @@ struct Category
 
 class NotesContainer : public CategorizedListModel
 {
+    Q_OBJECT
 public:
     NotesContainer(QObject* parent = nullptr);
+    ~NotesContainer() override;
+
+    NoteModel* noteAt(const QModelIndex &index);
 
 protected:
     int categoriesCount() const override;
     int categoryItems(int category) const override;
     QVariant categoryData(int category, Qt::ItemDataRole role = Qt::DisplayRole) const override;
-    QVariant itemData(int category, int item,
-                      Qt::ItemDataRole role = Qt::DisplayRole) const override;
+    QVariant itemData(int category, int item, Qt::ItemDataRole role = Qt::DisplayRole) const override;
 
 private:
     void loadFromDisc();
-
-private:
-    static const QString DATA_LOCATION;
 
 private:
     std::vector<std::unique_ptr<Category>> _categories;

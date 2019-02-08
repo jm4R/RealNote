@@ -1,8 +1,9 @@
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
-#include "MainWindow.h"
-#include "NoteModel.h"
+#include "MainWindow.hpp"
+#include "NoteModel.hpp"
+#include "NotesContainer.hpp"
 
 #include <QList>
 #include <QObject>
@@ -18,7 +19,8 @@ private slots:
 
 private:
     MainWindow window_;
-    NoteModel note_; // FIXME: use tree structure here
+    NotesContainer notes_;
+    NoteModel* note_; // FIXME: use tree structure here
 };
 
 #endif // MAINCONTROLLER_H

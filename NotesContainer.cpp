@@ -1,16 +1,28 @@
-#include "NotesContainer.h"
+#include "NotesContainer.hpp"
 
-#include "NoteModel.h"
+#include "FilesUtils.hpp"
+#include "NoteModel.hpp"
 
 #include <QStandardPaths>
+#include <QStringList>
 
-const QString NotesContainer::DATA_LOCATION =
-    QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-
-NotesContainer::NotesContainer(QObject* parent)
-    : CategorizedListModel{parent}
+NotesContainer::NotesContainer(QObject* parent) : CategorizedListModel{parent}
 {
     loadFromDisc();
+}
+
+NotesContainer::~NotesContainer()
+{
+
+}
+
+NoteModel* NotesContainer::noteAt(const QModelIndex& index)
+{
+    auto idx = translateIndex(index);
+    if (idx.category == -1 || idx.item == -1)
+        return nullptr;
+    else
+        return _categories[static_cast<std::size_t>(idx.category)]->_notes[static_cast<std::size_t>(idx.item)].get();
 }
 
 int NotesContainer::categoriesCount() const
@@ -22,6 +34,7 @@ int NotesContainer::categoryItems(int category) const
 {
     return static_cast<int>(_categories[static_cast<std::size_t>(category)]->_notes.size());
 }
+
 #include <QColor>
 QVariant NotesContainer::categoryData(int category, Qt::ItemDataRole role) const
 {
@@ -41,9 +54,7 @@ QVariant NotesContainer::itemData(int category, int item, Qt::ItemDataRole role)
     switch (role)
     {
     case Qt::DisplayRole:
-        return _categories[static_cast<std::size_t>(category)]
-            ->_notes[static_cast<std::size_t>(item)]
-            ->name();
+        return _categories[static_cast<std::size_t>(category)]->_notes[static_cast<std::size_t>(item)]->name();
     case Qt::DecorationRole:
         return QColor{Qt::blue};
     default:
@@ -53,8 +64,13 @@ QVariant NotesContainer::itemData(int category, int item, Qt::ItemDataRole role)
 
 void NotesContainer::loadFromDisc()
 {
-    // TODO: stub
-    _categories.push_back(std::make_unique<Category>());
-    _categories.back()->_name = "Default";
-    _categories.back()->_notes.push_back(std::make_unique<NoteModel>("DefaultNote"));
+    QDir dataDir = Dir::dataDir();
+    for (const auto& categoryDir : Dir::listDirs(dataDir))
+    {
+        _categories.push_back(std::make_unique<Category>());
+        _categories.back()->_name = categoryDir;
+        dataDir.cd(categoryDir);
+        for (const auto& noteFile : Dir::listFiles(dataDir))
+            _categories.back()->_notes.push_back(std::make_unique<NoteModel>(categoryDir, noteFile));
+    }
 }

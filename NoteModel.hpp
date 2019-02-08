@@ -9,7 +9,7 @@
 class NoteModel
 {
 public:
-    NoteModel(const QString& fileName);
+    NoteModel(const QString& categoryName, const QString& fileName);
     NoteModel(NoteModel&& other) = default;
 
     void load();
@@ -29,9 +29,6 @@ private:
     void preventHistoricalVersionsOverload();
 
 private:
-    static const QString DATA_LOCATION;
-
-private:
     enum State
     {
         NOT_ON_DISC,
@@ -39,9 +36,10 @@ private:
         NOT_LOADED
     } _state;
 
+    QString _categoryName;
     QString _fileName;
     QStringList _versions;
-    QStringList::Iterator _loadedVersion;
+    // QStringList::Iterator _loadedVersion;
     QTextDocument _document;
 };
 

@@ -1,40 +1,35 @@
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
+#include "MainWindow.hpp"
 
-#include "CategorizedListModel.h"
+#include "View/MainMenu.hpp"
+#include "View/MainView.hpp"
+#include "View/TextEditor.hpp"
 
 #include <QShortcut>
-#include <QActionGroup>
-#include <KGL/Design/QCodeEditorDesign.hpp>
+#include <QTreeView>
+#include <QWidget>
 
-namespace {
-
-} // namespace
-
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
 {
-    ui->setupUi(this);
-    //ui->treeView->setModel(new CategorizedListModel());
-    kgl::QCodeEditorDesign design;
+    mainView_ = new MainView{this};
+    setCentralWidget(mainView_);
+    mainMenu_ = new MainMenu{this};
+    setMenuBar(mainMenu_);
+
+    /*kgl::QCodeEditorDesign design;
     design.setLineColumnBackColor(0xff232323);
     design.setLineColumnSeparatorColor(0xff000000);
     design.setEditorBackColor(0xff000000);
-    design.setEditorTextColor(0xffeeeeee);
-    design.setTextFinderBackColor(0xff404244);
-    ui->plainTextEdit->setDesign(design);;
-    //ui->treeWidget->hide();
+    design.setEditorTextColor(0xffeeeeee);*/
 
     QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this};
     connect(saveShortcut, &QShortcut::activated, this, &MainWindow::saveInvoked);
     QShortcut* findShortcut = new QShortcut{QKeySequence{QKeySequence::Find}, this};
-    connect(findShortcut, &QShortcut::activated, [this]{ui->plainTextEdit->toggleTextFinder();});
+    connect(findShortcut, &QShortcut::activated, [this] { mainView_->toggleTextFinder(); });
+    connect(mainView_->treeView, &QTreeView::activated, this, &MainWindow::noteChoosed);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
 }
 
 void MainWindow::setNote(NoteModel& note)
@@ -43,27 +38,28 @@ void MainWindow::setNote(NoteModel& note)
     updateNote();
 }
 
-void MainWindow::setNotesTreeModel(QAbstractItemModel *model)
+void MainWindow::setNotesTreeModel(QAbstractItemModel& model)
 {
-    ui->treeView->setModel(model);
+    mainView_->treeView->setModel(&model);
 }
 
 void MainWindow::updateNote()
 {
     static auto ag = new QActionGroup(this);
-    ui->plainTextEdit->setDocument(&note_->document());
-    ui->menuHistory->clear();
-    QAction *action = ui->menuHistory->addAction(tr("Current"));
+    mainView_->textEdit->setDocument(&note_->document());
+    mainMenu_->history->clear();
+    QAction* action = mainMenu_->history->addAction(tr("Current"));
     ag->addAction(action);
     action->setCheckable(true);
     action->setChecked(true);
-    ui->menuHistory->addSeparator();
+    mainMenu_->history->addSeparator();
     int i = 0;
     for (const auto& version : note_->versions())
     {
-        QAction* action = ui->menuHistory->addAction(QString::number(++i) + ".  " +
-                                                     NoteModel::humanReadableVersion(version));
+        QAction* action =
+                mainMenu_->history->addAction(QString::number(++i) + ".  " + NoteModel::humanReadableVersion(version));
         ag->addAction(action);
         action->setCheckable(true);
+        action->setEnabled(false); // TODO: temp
     }
 }

@@ -1,6 +1,7 @@
-#include "CategorizedListModel.h"
+#include "CategorizedListModel.hpp"
 
-namespace {
+namespace
+{
 
 constexpr auto HAVE_NO_PARENT = static_cast<quintptr>(-1);
 
@@ -19,8 +20,7 @@ IndexType indexType(const QModelIndex& index)
 }
 } // namespace
 
-CategorizedListModel::CategorizedListModel(QObject* parent)
-    : QAbstractItemModel{parent}
+CategorizedListModel::CategorizedListModel(QObject* parent) : QAbstractItemModel{parent}
 {
 }
 
@@ -75,4 +75,18 @@ int CategorizedListModel::rowCount(const QModelIndex& parent) const
 int CategorizedListModel::columnCount(const QModelIndex& /*parent*/) const
 {
     return 1;
+}
+
+CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelIndex &index)
+{
+    switch (indexType(index))
+    {
+    case itInvalid:
+        return {-1,-1};
+    case itCategory:
+        return {index.row(), -1};
+    case itItem:
+        return {static_cast<int>(index.internalId()), index.row()};
+    }
+    return {-1, -1};
 }
