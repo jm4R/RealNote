@@ -29,7 +29,7 @@ QString dataLocation()
 QDir dataDir()
 {
     QDir dir{Dir::dataLocation()};
-    Dir::cdOrCreate(dir, Global::appName());
+    Dir::cdOrCreate(dir, Global::notesDirName());
     return dir;
 }
 

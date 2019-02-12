@@ -1,13 +1,16 @@
 #include "MainController.hpp"
 
+#include "Commands.hpp"
+#include "Model/ApplicationContext.hpp"
 #include "Model/Global.hpp"
+#include "Model/NoteModel.hpp"
 
 #include <QApplication>
 #include <QDebug>
 #include <QLocalServer>
 #include <QLocalSocket>
 
-MainController::MainController(QObject* parent) : QObject{parent}, note_{nullptr}
+MainController::MainController(QObject* parent) : QObject{parent}
 {
     // QFile file("qrc:/dark.css");
     // const auto qss = QString::fromUtf8(file.readAll());
@@ -17,7 +20,7 @@ MainController::MainController(QObject* parent) : QObject{parent}, note_{nullptr
     // }");
 
     window_.show();
-    window_.setNotesTreeModel(notes_);
+    window_.setNotesTreeModel(context->notes);
 
     {
         QLocalSocket socket;
@@ -43,19 +46,14 @@ MainController::MainController(QObject* parent) : QObject{parent}, note_{nullptr
 
     connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
     connect(&window_, &MainWindow::noteChoosed, [&](const QModelIndex& index) {
-        NoteModel* note = notes_.noteAt(index); // TODO: move from here
-        if (note)
-        {
-            window_.setNote(*note);
-            note_ = note;
-        }
+        if (cmd::SetNote{index}())
+            window_.reloadNote();
     });
 }
 
 void MainController::save()
 {
-    if (!note_)
+    if (!context->note)
         return;
-    note_->save();
-    window_.updateNote();
+    context->note->save();
 }

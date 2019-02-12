@@ -4,7 +4,9 @@
 #include "TextEditor.hpp"
 
 #include <QLayout>
+#include <QPushButton>
 #include <QSplitter>
+#include <QToolButton>
 #include <QTreeView>
 #include <QWidget>
 
@@ -51,6 +53,7 @@ QSplitter* splitter(QWidget* parent, T*... widgets)
     (splitter->addWidget(widgets), ...);
     return splitter;
 }
+
 } // namespace QtUtils
 
 #endif // QTUTILS_HPP

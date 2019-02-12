@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+class QAbstractButton;
 class QTreeView;
 class QPlainTextEdit;
 class TextEditor;
@@ -24,6 +25,8 @@ public:
     QTreeView* treeView;
     TextEditor* textEdit;
     TextFinder* textFinder;
+
+    QAbstractButton* addButton;
 };
 
 #endif // MAINVIEW_H

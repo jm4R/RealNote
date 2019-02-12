@@ -26,9 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    NoteModel.cpp \
     MainController.cpp \
-    NotesContainer.cpp \
     ThirdParty/QCodeEditor/src/Design/QCodeEditorDesign.cpp \
     ThirdParty/QCodeEditor/src/Design/QCodeEditorSheets.cpp \
     ThirdParty/QCodeEditor/src/Design/QLineColumnPadding.cpp \
@@ -41,10 +39,13 @@ SOURCES += \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorPopup.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorSlots.cpp \
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp \
-    CategorizedListModel.cpp \
     View/MainView.cpp \
     View/MainMenu.cpp \
-    FilesUtils.cpp
+    FilesUtils.cpp \
+    Model/NoteModel.cpp \
+    Model/NotesContainer.cpp \
+    Model/ApplicationContext.cpp \
+    Model/CategorizedListModel.cpp
 
 HEADERS += \
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorDesign.hpp \
@@ -63,12 +64,14 @@ HEADERS += \
     View/TextEditor.hpp \
     View/MainMenu.hpp \
     FilesUtils.hpp \
-    CategorizedListModel.hpp \
     MainController.hpp \
     MainWindow.hpp \
-    NoteModel.hpp \
-    NotesContainer.hpp \
-    Model/Global.hpp
+    Model/Global.hpp \
+    Commands.hpp \
+    Model/ApplicationContext.hpp \
+    Model/NoteModel.hpp \
+    Model/NotesContainer.hpp \
+    Model/CategorizedListModel.hpp
 
 INCLUDEPATH += \
     ThirdParty/QCodeEditor/include

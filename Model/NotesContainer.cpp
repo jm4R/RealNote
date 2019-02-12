@@ -1,19 +1,19 @@
 #include "NotesContainer.hpp"
 
 #include "FilesUtils.hpp"
-#include "NoteModel.hpp"
+#include "Model/NoteModel.hpp"
 
 #include <QStandardPaths>
 #include <QStringList>
 
 NotesContainer::NotesContainer(QObject* parent) : CategorizedListModel{parent}
 {
+    // TODO move from constructor;
     loadFromDisc();
 }
 
 NotesContainer::~NotesContainer()
 {
-
 }
 
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)

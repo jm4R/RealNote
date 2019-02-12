@@ -1,13 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "NoteModel.hpp"
-
 #include <QMainWindow>
 
 class MainMenu;
 class MainView;
 class QAbstractItemModel;
+class NoteModel;
 
 class MainWindow : public QMainWindow
 {
@@ -17,9 +16,8 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-    void setNote(NoteModel& note);
     void setNotesTreeModel(QAbstractItemModel& model);
-    void updateNote();
+    void reloadNote();
 
 signals:
     void saveInvoked();
@@ -28,7 +26,6 @@ signals:
 private:
     MainView* mainView_;
     MainMenu* mainMenu_;
-    NoteModel* note_;
 };
 
 #endif // MAINWINDOW_H
