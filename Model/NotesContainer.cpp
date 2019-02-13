@@ -3,6 +3,7 @@
 #include "FilesUtils.hpp"
 #include "Model/NoteModel.hpp"
 
+#include <QDebug>
 #include <QStandardPaths>
 #include <QStringList>
 
@@ -65,6 +66,7 @@ QVariant NotesContainer::itemData(int category, int item, Qt::ItemDataRole role)
 void NotesContainer::loadFromDisc()
 {
     QDir dataDir = Dir::dataDir();
+    qDebug() << "Loading notes structure from: " << dataDir.path();
     for (const auto& categoryDir : Dir::listDirs(dataDir))
     {
         _categories.push_back(std::make_unique<Category>());
@@ -72,5 +74,6 @@ void NotesContainer::loadFromDisc()
         dataDir.cd(categoryDir);
         for (const auto& noteFile : Dir::listFiles(dataDir))
             _categories.back()->_notes.push_back(std::make_unique<NoteModel>(categoryDir, noteFile));
+        dataDir.cdUp();
     }
 }
