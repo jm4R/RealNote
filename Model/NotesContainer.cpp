@@ -1,6 +1,7 @@
 #include "NotesContainer.hpp"
 
 #include "FilesUtils.hpp"
+#include "Model/ApplicationContext.hpp"
 #include "Model/NoteModel.hpp"
 
 #include <QDebug>
@@ -24,6 +25,12 @@ NoteModel* NotesContainer::noteAt(const QModelIndex& index)
         return nullptr;
     else
         return _categories[static_cast<std::size_t>(idx.category)]->_notes[static_cast<std::size_t>(idx.item)].get();
+}
+
+void NotesContainer::setLoadedNote(NoteModel& note)
+{
+    context->note = &note;
+    emit loadedChanged();
 }
 
 int NotesContainer::categoriesCount() const

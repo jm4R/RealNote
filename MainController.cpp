@@ -46,12 +46,11 @@ MainController::MainController(QObject* parent) : QObject{parent}
 
     connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
     connect(&window_, &MainWindow::noteChoosed, [&](const QModelIndex& index) {
-        if (cmd::SetNote{index}())
-            window_.reloadNote();
+        cmd::SetNote{index}();
     });
 }
 
-void MainController::save()
+void MainController::save() //TODO: make command
 {
     if (!context->note)
         return;

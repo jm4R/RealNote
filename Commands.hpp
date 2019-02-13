@@ -20,7 +20,7 @@ struct SetNote
         auto note = context->notes.noteAt(index);
         if (note)
         {
-            context->note = note;
+            context->notes.setLoadedNote(*note);
         }
         return note != nullptr;
     }

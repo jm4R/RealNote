@@ -22,12 +22,16 @@ public:
     ~NotesContainer() override;
 
     NoteModel* noteAt(const QModelIndex &index);
+    void setLoadedNote(NoteModel &note);
 
 protected:
     int categoriesCount() const override;
     int categoryItems(int category) const override;
     QVariant categoryData(int category, Qt::ItemDataRole role = Qt::DisplayRole) const override;
     QVariant itemData(int category, int item, Qt::ItemDataRole role = Qt::DisplayRole) const override;
+
+signals:
+    void loadedChanged();
 
 private:
     void loadFromDisc();

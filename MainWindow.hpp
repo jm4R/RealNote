@@ -17,11 +17,13 @@ public:
     ~MainWindow();
 
     void setNotesTreeModel(QAbstractItemModel& model);
-    void reloadNote();
 
 signals:
     void saveInvoked();
     void noteChoosed(const QModelIndex& index);
+
+private slots:
+    void reloadNote();
 
 private:
     MainView* mainView_;

@@ -4,6 +4,7 @@
 #include "View/MainMenu.hpp"
 #include "View/MainView.hpp"
 #include "View/TextEditor.hpp"
+#include "Model/ApplicationContext.hpp"
 #include "Model/NoteModel.hpp"
 
 #include <QShortcut>
@@ -23,11 +24,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     design.setEditorBackColor(0xff000000);
     design.setEditorTextColor(0xffeeeeee);*/
 
+    //generate signals:
     QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this};
     connect(saveShortcut, &QShortcut::activated, this, &MainWindow::saveInvoked);
     QShortcut* findShortcut = new QShortcut{QKeySequence{QKeySequence::Find}, this};
     connect(findShortcut, &QShortcut::activated, [this] { mainView_->toggleTextFinder(); });
     connect(mainView_->treeView, &QTreeView::activated, this, &MainWindow::noteChoosed);
+
+    //connect slots:
+    connect(&context->notes, &NotesContainer::loadedChanged, this, &MainWindow::reloadNote);
 }
 
 MainWindow::~MainWindow()
