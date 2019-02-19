@@ -21,6 +21,8 @@ public:
     NotesContainer(QObject* parent = nullptr);
     ~NotesContainer() override;
 
+    void add(const QString& category, const QString& name);
+
     NoteModel* noteAt(const QModelIndex &index);
     void setLoadedNote(NoteModel &note);
 

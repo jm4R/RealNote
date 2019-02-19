@@ -26,6 +26,12 @@ struct SetNote
     }
 };
 
+bool addNote()
+{
+
+    return true;
+}
+
 } // namespace cmd
 
 #endif // COMMANDS_HPP

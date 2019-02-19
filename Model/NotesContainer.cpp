@@ -18,6 +18,16 @@ NotesContainer::~NotesContainer()
 {
 }
 
+void NotesContainer::add(const QString &category, const QString &name)
+{
+    auto cat = std::find_if(_categories.begin(), _categories.end(),
+                            [&](const auto& c) { return c->_name == category; } );
+    if (cat == _categories.end())
+        return;
+    (*cat)->_notes.push_back(std::make_unique<NoteModel>(category, name));
+    (*cat)->_notes.back()->save();
+}
+
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)
 {
     auto idx = translateIndex(index);
