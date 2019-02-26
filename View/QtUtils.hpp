@@ -3,7 +3,10 @@
 
 #include "TextEditor.hpp"
 
+#include <QAction>
+#include <QInputDialog>
 #include <QLayout>
+#include <QMenu>
 #include <QPushButton>
 #include <QSplitter>
 #include <QToolButton>
@@ -52,6 +55,14 @@ QSplitter* splitter(QWidget* parent, T*... widgets)
     auto splitter = new QSplitter{parent};
     (splitter->addWidget(widgets), ...);
     return splitter;
+}
+
+template<typename F>
+QAction* action(QWidget* parent, const QString& label, F&& handler)
+{
+    auto action = new QAction{label, parent};
+    QObject::connect(action, &QAction::triggered, handler);
+    return action;
 }
 
 } // namespace QtUtils

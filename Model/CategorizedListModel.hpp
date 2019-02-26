@@ -9,6 +9,17 @@ class CategorizedListModel : public QAbstractItemModel
 public:
     CategorizedListModel(QObject* parent = nullptr);
     ~CategorizedListModel() override;
+
+public:
+    enum IndexType
+    {
+        itInvalid,
+        itCategory,
+        itItem
+    };
+
+    static IndexType indexType(const QModelIndex& index);
+
     QVariant data(const QModelIndex& index, int role) const override;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& index) const override;

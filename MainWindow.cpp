@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     design.setEditorTextColor(0xffeeeeee);*/
 
     //generate signals:
-    QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this};
+    QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this}; //TODO: QAction
     connect(saveShortcut, &QShortcut::activated, this, &MainWindow::saveInvoked);
     QShortcut* findShortcut = new QShortcut{QKeySequence{QKeySequence::Find}, this};
     connect(findShortcut, &QShortcut::activated, [this] { mainView_->toggleTextFinder(); });

@@ -2,22 +2,7 @@
 
 namespace
 {
-
 constexpr auto HAVE_NO_PARENT = static_cast<quintptr>(-1);
-
-enum IndexType
-{
-    itInvalid,
-    itCategory,
-    itItem
-};
-
-IndexType indexType(const QModelIndex& index)
-{
-    if (!index.isValid())
-        return itInvalid;
-    return index.internalId() == HAVE_NO_PARENT ? itCategory : itItem;
-}
 } // namespace
 
 CategorizedListModel::CategorizedListModel(QObject* parent) : QAbstractItemModel{parent}
@@ -26,6 +11,13 @@ CategorizedListModel::CategorizedListModel(QObject* parent) : QAbstractItemModel
 
 CategorizedListModel::~CategorizedListModel()
 {
+}
+
+CategorizedListModel::IndexType CategorizedListModel::indexType(const QModelIndex& index)
+{
+    if (!index.isValid())
+        return itInvalid;
+    return index.internalId() == HAVE_NO_PARENT ? itCategory : itItem;
 }
 
 QVariant CategorizedListModel::data(const QModelIndex& index, int role) const
@@ -77,12 +69,12 @@ int CategorizedListModel::columnCount(const QModelIndex& /*parent*/) const
     return 1;
 }
 
-CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelIndex &index)
+CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelIndex& index)
 {
     switch (indexType(index))
     {
     case itInvalid:
-        return {-1,-1};
+        return {-1, -1};
     case itCategory:
         return {index.row(), -1};
     case itItem:
