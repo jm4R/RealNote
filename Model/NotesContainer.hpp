@@ -22,6 +22,7 @@ public:
     ~NotesContainer() override;
 
     void add(const QString& category, const QString& name);
+    void add(int categoryNumber, int beforeNote, const QString& name);
 
     NoteModel* noteAt(const QModelIndex &index);
     void setLoadedNote(NoteModel &note);
@@ -31,6 +32,9 @@ protected:
     int categoryItems(int category) const override;
     QVariant categoryData(int category, Qt::ItemDataRole role = Qt::DisplayRole) const override;
     QVariant itemData(int category, int item, Qt::ItemDataRole role = Qt::DisplayRole) const override;
+
+    virtual bool handleInsertCategory(int beforeCategory, QVariant data) override;
+    virtual bool handleInsertItem(int category, int beforeItem, QVariant data) override;
 
 signals:
     void loadedChanged();

@@ -12,6 +12,7 @@ class QPoint;
 class TextEditor;
 class TextFinder;
 class QMenu;
+class QModelIndex;
 
 class MainView : public QWidget
 {
@@ -21,11 +22,12 @@ public:
 
 private:
     void buildWidgets();
+    void buildActions();
     void buildMenus();
     void connectSignals();
 
 signals:
-    void addNote(QString category, QString name);
+    void addNote(const QModelIndex& category, const QString& name);
 
 public slots:
     void toggleTextFinder();

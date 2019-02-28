@@ -18,14 +18,24 @@ NotesContainer::~NotesContainer()
 {
 }
 
-void NotesContainer::add(const QString &category, const QString &name)
+void NotesContainer::add(const QString& category, const QString& name)
 {
-    auto cat = std::find_if(_categories.begin(), _categories.end(),
-                            [&](const auto& c) { return c->_name == category; } );
+    /*auto cat =
+            std::find_if(_categories.begin(), _categories.end(), [&](const auto& c) { return c->_name == category; });
     if (cat == _categories.end())
         return;
     (*cat)->_notes.push_back(std::make_unique<NoteModel>(category, name));
-    (*cat)->_notes.back()->save();
+    (*cat)->_notes.back()->save();*/
+    // TODO: must use insertItem
+}
+
+void NotesContainer::add(int categoryNumber, int beforeNote, const QString& name)
+{
+    bool ok = insertItem(categoryNumber, beforeNote, name);
+    if (ok)
+    {
+        _categories[static_cast<std::size_t>(categoryNumber)]->_notes[static_cast<std::size_t>(beforeNote)]->save();
+    }
 }
 
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)
@@ -78,6 +88,30 @@ QVariant NotesContainer::itemData(int category, int item, Qt::ItemDataRole role)
     default:
         return {};
     }
+}
+
+bool NotesContainer::handleInsertCategory(int beforeCategory, QVariant data)
+{
+    if (beforeCategory < 0 || beforeCategory > int(_categories.size()))
+        return false;
+    auto& newCategory = *_categories.emplace(_categories.begin() + beforeCategory);
+    newCategory->_name = std::move(data).toString();
+    return true;
+}
+
+bool NotesContainer::handleInsertItem(int category, int beforeItem, QVariant data)
+{
+    if (category < 0 || category >= int(_categories.size()))
+        return false;
+
+    auto& theCategory = *_categories[std::size_t(category)];
+
+    if (beforeItem < 0 || beforeItem > int(theCategory._notes.size()))
+        return false;
+
+    *theCategory._notes.insert(theCategory._notes.begin() + beforeItem,
+                               std::make_unique<NoteModel>(theCategory._name, std::move(data).toString()));
+    return true;
 }
 
 void NotesContainer::loadFromDisc()

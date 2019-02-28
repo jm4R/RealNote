@@ -46,7 +46,7 @@ void NoteModel::load()
 
 void NoteModel::save()
 {
-    if (!_document.isModified())
+    if (_state == LOADED && !_document.isModified())
         return;
 
     archiveCurrentVersion();

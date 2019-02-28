@@ -45,12 +45,12 @@ MainController::MainController(QObject* parent) : QObject{parent}
     });
 
     connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
-    connect(&window_, &MainWindow::noteChoosed, [&](const QModelIndex& index) {
-        cmd::SetNote{index}();
-    });
+    connect(&window_, &MainWindow::noteChoosed, [](const QModelIndex& index) { cmd::setNote(index); });
+    connect(&window_, &MainWindow::addNote,
+            [](const QModelIndex& index, const QString& name) { cmd::addNote(index, name); });
 }
 
-void MainController::save() //TODO: make command
+void MainController::save() // TODO: make command
 {
     if (!context->note)
         return;

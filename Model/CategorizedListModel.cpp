@@ -69,7 +69,23 @@ int CategorizedListModel::columnCount(const QModelIndex& /*parent*/) const
     return 1;
 }
 
-CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelIndex& index)
+bool CategorizedListModel::insertCategory(int beforeCategory, QVariant data)
+{
+    beginInsertRows({}, beforeCategory, beforeCategory + 1);
+    bool res = handleInsertCategory(beforeCategory, std::move(data));
+    endInsertRows();
+    return res;
+}
+
+bool CategorizedListModel::insertItem(int category, int beforeItem, QVariant data)
+{
+    beginInsertRows(categoryToIndex(category), beforeItem, beforeItem + 1);
+    bool res = handleInsertItem(category, beforeItem, std::move(data));
+    endInsertRows();
+    return res;
+}
+
+CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelIndex& index) const
 {
     switch (indexType(index))
     {
@@ -81,4 +97,33 @@ CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelInd
         return {static_cast<int>(index.internalId()), index.row()};
     }
     return {-1, -1};
+}
+
+QModelIndex CategorizedListModel::translateIndex(const Index& index) const
+{
+    if (index.category == -1 && index.item == -1)
+        return {};
+    if (index.item == -1 /*&& index.category != -1*/)
+        return createIndex(index.category, 0, HAVE_NO_PARENT);
+    return createIndex(index.item, 0, static_cast<quintptr>(index.category));
+}
+
+QModelIndex CategorizedListModel::categoryToIndex(int category) const
+{
+    return translateIndex({category, -1});
+}
+
+QModelIndex CategorizedListModel::itemToIndex(int category, int item) const
+{
+    return translateIndex({category, item});
+}
+
+bool CategorizedListModel::handleInsertCategory(int, QVariant)
+{
+    return false;
+}
+
+bool CategorizedListModel::handleInsertItem(int, int, QVariant)
+{
+    return false;
 }

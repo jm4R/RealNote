@@ -8,27 +8,20 @@ class NoteModel;
 namespace cmd
 {
 
-struct SetNote
+bool setNote(const QModelIndex& index)
 {
-    const QModelIndex& index;
-    SetNote(const QModelIndex& index) : index{index}
+    auto note = context->notes.noteAt(index);
+    if (note)
     {
+        context->notes.setLoadedNote(*note);
     }
+    return note != nullptr;
+}
 
-    bool operator()()
-    {
-        auto note = context->notes.noteAt(index);
-        if (note)
-        {
-            context->notes.setLoadedNote(*note);
-        }
-        return note != nullptr;
-    }
-};
-
-bool addNote()
+bool addNote(const QModelIndex& index, const QString& name)
 {
-
+    auto ciIndex = context->notes.translateIndex(index);
+    context->notes.add(ciIndex.category, ciIndex.item + 1, name);
     return true;
 }
 

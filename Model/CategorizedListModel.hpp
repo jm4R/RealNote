@@ -20,25 +20,37 @@ public:
 
     static IndexType indexType(const QModelIndex& index);
 
+    //read data:
     QVariant data(const QModelIndex& index, int role) const override;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& index) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    //modify data:
+    bool insertCategory(int beforeCategory, QVariant data);
+    bool insertItem(int category, int beforeItem, QVariant data);
+
     using QAbstractItemModel::itemData; // suppress warning
 
-protected:
+public: // TODO: are you sure?
     struct Index
     {
         int category, item;
     };
-    Index translateIndex(const QModelIndex& index);
+    Index translateIndex(const QModelIndex& index) const;
+    QModelIndex translateIndex(const Index& index) const;
+    QModelIndex categoryToIndex(int category) const;
+    QModelIndex itemToIndex(int category, int item) const;
 
 protected:
     virtual int categoriesCount() const = 0;
     virtual int categoryItems(int category) const = 0;
     virtual QVariant categoryData(int category, Qt::ItemDataRole role = Qt::DisplayRole) const = 0;
     virtual QVariant itemData(int category, int item, Qt::ItemDataRole role = Qt::DisplayRole) const = 0;
+
+    virtual bool handleInsertCategory(int beforeCategory, QVariant data);
+    virtual bool handleInsertItem(int category, int beforeItem, QVariant data);
 };
 
 #endif // CategorizedListModel_H

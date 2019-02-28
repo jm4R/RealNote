@@ -6,6 +6,7 @@
 MainView::MainView(QWidget* parent) : QWidget{parent}
 {
     buildWidgets();
+    buildActions();
     buildMenus();
     connectSignals();
 }
@@ -40,10 +41,13 @@ void MainView::buildWidgets()
     setLayout(mainLayout);
 }
 
-void MainView::buildMenus()
+void MainView::buildActions()
 {
     addNoteAction = QtUtils::action(this, tr("Add note here"), [&] { addNoteRequested(); });
+}
 
+void MainView::buildMenus()
+{
     categoryContextMenu = new QMenu{this};
     categoryContextMenu->addAction(addNoteAction);
     categoryContextMenu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
@@ -100,5 +104,5 @@ void MainView::addNoteRequested()
     QString name = QInputDialog::getText(this, tr("New note name..."), tr("Note name:"), QLineEdit::Normal,
                                          tr("Fast note"), &ok);
     if (ok && !name.isEmpty())
-        emit addNote("", name);
+        emit addNote(treeView->currentIndex(), name);
 }
