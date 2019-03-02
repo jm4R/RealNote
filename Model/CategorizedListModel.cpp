@@ -85,6 +85,22 @@ bool CategorizedListModel::insertItem(int category, int beforeItem, QVariant dat
     return res;
 }
 
+bool CategorizedListModel::removeCategory(int category)
+{
+    beginRemoveRows({}, category, category);
+    bool res = handleRemoveCategory(category);
+    endRemoveRows();
+    return res;
+}
+
+bool CategorizedListModel::removeItem(int category, int item)
+{
+    beginRemoveRows(categoryToIndex(category), item, item);
+    bool res = handleRemoveItem(category, item);
+    endRemoveRows();
+    return res;
+}
+
 CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelIndex& index) const
 {
     switch (indexType(index))
@@ -124,6 +140,16 @@ bool CategorizedListModel::handleInsertCategory(int, QVariant)
 }
 
 bool CategorizedListModel::handleInsertItem(int, int, QVariant)
+{
+    return false;
+}
+
+bool CategorizedListModel::handleRemoveCategory(int)
+{
+    return false;
+}
+
+bool CategorizedListModel::handleRemoveItem(int, int)
 {
     return false;
 }

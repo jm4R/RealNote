@@ -48,6 +48,7 @@ MainController::MainController(QObject* parent) : QObject{parent}
     connect(&window_, &MainWindow::noteChoosed, [](const QModelIndex& index) { cmd::setNote(index); });
     connect(&window_, &MainWindow::addNote,
             [](const QModelIndex& index, const QString& name) { cmd::addNote(index, name); });
+    connect(&window_, &MainWindow::removeNote, [](const QModelIndex& index) { cmd::removeNote(index); });
 }
 
 void MainController::save() // TODO: make command

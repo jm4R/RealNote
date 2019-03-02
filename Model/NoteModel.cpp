@@ -145,3 +145,9 @@ void NoteModel::unload()
     _state = (_state == NOT_ON_DISC) ? NOT_ON_DISC : NOT_LOADED;
     _document.clear();
 }
+
+bool NoteModel::archive()
+{
+    archiveCurrentVersion();
+    return true;
+}

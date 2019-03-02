@@ -21,7 +21,8 @@ public:
 signals:
     void saveInvoked();
     void noteChoosed(const QModelIndex& index);
-    void addNote(const QModelIndex& index, const QString& name);
+    void addNote(const QModelIndex& category, const QString& name);
+    void removeNote(const QModelIndex& index);
 
 private slots:
     void reloadNote();

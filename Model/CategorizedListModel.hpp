@@ -30,6 +30,8 @@ public:
     //modify data:
     bool insertCategory(int beforeCategory, QVariant data);
     bool insertItem(int category, int beforeItem, QVariant data);
+    bool removeCategory(int category);
+    bool removeItem(int category, int item);
 
     using QAbstractItemModel::itemData; // suppress warning
 
@@ -51,6 +53,8 @@ protected:
 
     virtual bool handleInsertCategory(int beforeCategory, QVariant data);
     virtual bool handleInsertItem(int category, int beforeItem, QVariant data);
+    virtual bool handleRemoveCategory(int category);
+    virtual bool handleRemoveItem(int category, int item);
 };
 
 #endif // CategorizedListModel_H

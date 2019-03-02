@@ -7,6 +7,7 @@
 #include <QInputDialog>
 #include <QLayout>
 #include <QMenu>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QSplitter>
 #include <QToolButton>
@@ -63,6 +64,11 @@ QAction* action(QWidget* parent, const QString& label, F&& handler)
     auto action = new QAction{label, parent};
     QObject::connect(action, &QAction::triggered, handler);
     return action;
+}
+
+bool confirmDialog(QWidget* parent, const QString& question)
+{
+    return QMessageBox::Yes == QMessageBox::question(parent, QObject::tr("Please confirm"), question);
 }
 
 } // namespace QtUtils

@@ -9,6 +9,7 @@ class QAbstractButton;
 class QTreeView;
 class QPlainTextEdit;
 class QPoint;
+class QPushButton;
 class TextEditor;
 class TextFinder;
 class QMenu;
@@ -28,6 +29,7 @@ private:
 
 signals:
     void addNote(const QModelIndex& category, const QString& name);
+    void removeNote(const QModelIndex& index);
 
 public slots:
     void toggleTextFinder();
@@ -35,15 +37,19 @@ public slots:
 private slots:
     void showContextMenu(const QPoint& point);
     void addNoteRequested();
+    void removeNoteRequested();
 
 protected:
     QSize sizeHint() const override;
 
 public:
+    using QButton = QPushButton;
+
     QTreeView* treeView;
     TextEditor* textEdit;
     TextFinder* textFinder;
-    QAbstractButton* addButton;
+    QButton* addButton;
+    QButton* removeButton;
 
     QAction* addNoteAction;
     QAction* removeNoteAction;

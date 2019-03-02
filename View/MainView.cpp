@@ -20,7 +20,8 @@ void MainView::buildWidgets()
     treeView->setHeaderHidden(true);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    addButton = new QPushButton{tr("Add"), this};
+    addButton = new QButton{tr("Add"), this};
+    removeButton = new QButton{tr("Remove"), this};
 
     textFinder->layout()->setMargin(0);
     textFinder->layout()->setSpacing(2);
@@ -30,9 +31,11 @@ void MainView::buildWidgets()
     QtUtils::vLayout(editorWidget, textEdit, textFinder)->setMargin(0);
 
     auto* treeWidget = new QFrame{this};
-    // auto* buttonsLayout = QtUtils::hLayout(treeWidget, addButton);
-    // buttonsLayout->setMargin(0);
-    QtUtils::vLayout(treeWidget, treeView, addButton)->setMargin(0);
+    auto* buttonsLayout = QtUtils::hLayout(nullptr, addButton, removeButton); //TODO: memory leak?
+    buttonsLayout->setMargin(0);
+    auto* treeLayout = QtUtils::vLayout(treeWidget, treeView, buttonsLayout);
+    treeLayout->setMargin(0);
+
 
     auto* splitter = QtUtils::splitter(this, treeWidget, editorWidget);
     splitter->setStretchFactor(0, 0);
@@ -44,26 +47,35 @@ void MainView::buildWidgets()
 void MainView::buildActions()
 {
     addNoteAction = QtUtils::action(this, tr("Add note here"), [&] { addNoteRequested(); });
+    removeNoteAction = QtUtils::action(this, tr("Remove this note"), [&] { removeNoteRequested(); });
 }
 
 void MainView::buildMenus()
 {
+
     categoryContextMenu = new QMenu{this};
-    categoryContextMenu->addAction(addNoteAction);
-    categoryContextMenu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
-    categoryContextMenu->addAction(QtUtils::action(this, tr("Delete (TODO)"), [] {}));
-    categoryContextMenu->addAction(QtUtils::action(this, tr("Merge with... (TODO)"), [] {}));
+    {
+        auto* menu = categoryContextMenu;
+        menu->addAction(addNoteAction);
+        menu->addAction(removeNoteAction);
+        menu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
+        menu->addAction(QtUtils::action(this, tr("Merge with... (TODO)"), [] {}));
+    }
 
     noteContextMenu = new QMenu{this};
-    noteContextMenu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
-    noteContextMenu->addAction(QtUtils::action(this, tr("Delete (TODO)"), [] {}));
-    noteContextMenu->addAction(QtUtils::action(this, tr("Move to... (TODO)"), [] {}));
+    {
+        auto* menu = noteContextMenu;
+        menu->addAction(removeNoteAction);
+        menu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
+        menu->addAction(QtUtils::action(this, tr("Move to... (TODO)"), [] {}));
+    }
 }
 
 void MainView::connectSignals()
 {
     connect(treeView, &QTreeView::customContextMenuRequested, this, &MainView::showContextMenu);
-    connect(addButton, &QAbstractButton::clicked, this, &MainView::addNoteRequested);
+    connect(addButton, &QButton::clicked, this, &MainView::addNoteRequested);
+    connect(removeButton, &QButton::clicked, this, &MainView::removeNoteRequested);
 }
 
 QSize MainView::sizeHint() const
@@ -105,4 +117,14 @@ void MainView::addNoteRequested()
                                          tr("Fast note"), &ok);
     if (ok && !name.isEmpty())
         emit addNote(treeView->currentIndex(), name);
+}
+
+void MainView::removeNoteRequested()
+{
+    auto index = treeView->currentIndex();
+    if (!index.isValid())
+        return;
+    bool confirm = QtUtils::confirmDialog(this, tr("Remove permanently?"));
+    if (confirm)
+        emit removeNote(index);
 }

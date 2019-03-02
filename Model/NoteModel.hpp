@@ -15,6 +15,7 @@ public:
     void load();
     void save();
     void unload();
+    bool archive();
     QTextDocument& document();
     const QStringList& versions() const;
     QString name() const;

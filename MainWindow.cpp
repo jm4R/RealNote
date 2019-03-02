@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     connect(findShortcut, &QShortcut::activated, [this] { mainView_->toggleTextFinder(); });
     connect(mainView_->treeView, &QTreeView::activated, this, &MainWindow::noteChoosed);
     connect(mainView_, &MainView::addNote, this, &MainWindow::addNote);
+    connect(mainView_, &MainView::removeNote, this, &MainWindow::removeNote);
 
     //connect slots:
     connect(&context->notes, &NotesContainer::loadedChanged, this, &MainWindow::reloadNote);

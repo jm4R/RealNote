@@ -38,6 +38,11 @@ void NotesContainer::add(int categoryNumber, int beforeNote, const QString& name
     }
 }
 
+void NotesContainer::remove(int category, int note)
+{
+    removeItem(category, note);
+}
+
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)
 {
     auto idx = translateIndex(index);
@@ -112,6 +117,22 @@ bool NotesContainer::handleInsertItem(int category, int beforeItem, QVariant dat
     *theCategory._notes.insert(theCategory._notes.begin() + beforeItem,
                                std::make_unique<NoteModel>(theCategory._name, std::move(data).toString()));
     return true;
+}
+
+bool NotesContainer::handleRemoveItem(int category, int item)
+{
+    if (category < 0 || category >= int(_categories.size()))
+        return false;
+
+    auto& theCategory = *_categories[std::size_t(category)];
+
+    if (item < 0 || item >= int(theCategory._notes.size()))
+        return false;
+
+    auto removedIterator = theCategory._notes.begin() + item;
+    bool ok = removedIterator->get()->archive();
+    ok = ok && *theCategory._notes.erase(removedIterator);
+    return ok;
 }
 
 void NotesContainer::loadFromDisc()

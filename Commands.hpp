@@ -25,6 +25,13 @@ bool addNote(const QModelIndex& index, const QString& name)
     return true;
 }
 
+bool removeNote(const QModelIndex& index)
+{
+    auto ciIndex = context->notes.translateIndex(index);
+    context->notes.remove(ciIndex.category, ciIndex.item);
+    return true;
+}
+
 } // namespace cmd
 
 #endif // COMMANDS_HPP
