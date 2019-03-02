@@ -12,12 +12,10 @@
 
 MainController::MainController(QObject* parent) : QObject{parent}
 {
-    // QFile file("qrc:/dark.css");
-    // const auto qss = QString::fromUtf8(file.readAll());
-    // qDebug() << qss;
-    // qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color:
-    // #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323
-    // }");
+     QFile file("qrc:/dark.css");
+     const auto qss = QString::fromUtf8(file.readAll());
+     qDebug() << qss;
+     qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color: #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323}");
 
     window_.show();
     window_.setNotesTreeModel(context->notes);
