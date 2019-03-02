@@ -18,39 +18,14 @@ NotesContainer::~NotesContainer()
 {
 }
 
-void NotesContainer::add(const QString& category, const QString& name)
-{
-    /*auto cat =
-            std::find_if(_categories.begin(), _categories.end(), [&](const auto& c) { return c->_name == category; });
-    if (cat == _categories.end())
-        return;
-    (*cat)->_notes.push_back(std::make_unique<NoteModel>(category, name));
-    (*cat)->_notes.back()->save();*/
-    // TODO: must use insertItem
-}
-
 void NotesContainer::add(int categoryNumber, int beforeNote, const QString& name)
 {
-    bool ok = insertItem(categoryNumber, beforeNote, name);
-    if (ok)
-    {
-        _categories[static_cast<std::size_t>(categoryNumber)]->_notes[static_cast<std::size_t>(beforeNote)]->save();
-    }
-}
-
-void NotesContainer::remove(int category, int note)
-{
-    removeItem(category, note);
+    insertItem(categoryNumber, beforeNote, name);
 }
 
 void NotesContainer::addCategory(int beforeCategory, const QString &name)
 {
-    bool ok = insertCategory(beforeCategory, name);
-}
-
-void NotesContainer::removeCategory(int category)
-{
-    //bool ok = removeCategory(category);
+    insertCategory(beforeCategory, name);
 }
 
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)
@@ -109,7 +84,11 @@ bool NotesContainer::handleInsertCategory(int beforeCategory, QVariant data)
 {
     if (beforeCategory < 0 || beforeCategory > int(_categories.size()))
         return false;
-    auto& newCategory = *_categories.emplace(_categories.begin() + beforeCategory);
+    bool ok = Dir::dataDir().mkdir(data.toString());
+    if (!ok)
+        return false; // TODO: error handling
+    auto& newCategory = *_categories.insert(_categories.begin() + beforeCategory,
+                                            std::make_unique<Category>());
     newCategory->_name = std::move(data).toString();
     return true;
 }
@@ -124,8 +103,25 @@ bool NotesContainer::handleInsertItem(int category, int beforeItem, QVariant dat
     if (beforeItem < 0 || beforeItem > int(theCategory._notes.size()))
         return false;
 
-    *theCategory._notes.insert(theCategory._notes.begin() + beforeItem,
-                               std::make_unique<NoteModel>(theCategory._name, std::move(data).toString()));
+    auto& inserted = *theCategory._notes.insert(theCategory._notes.begin() + beforeItem,
+                                                std::make_unique<NoteModel>(
+                                                        theCategory._name,
+                                                        std::move(data).toString()));
+    inserted->save();
+    return true;
+}
+
+bool NotesContainer::handleRemoveCategory(int category)
+{
+    if (category < 0 || category >= int(_categories.size()))
+        return false;
+    auto toRemove = _categories.begin() + category;
+    auto dir = Dir::dataDir();
+    bool ok = dir.cd(toRemove->get()->_name);
+    ok = ok && dir.removeRecursively();
+    if (!ok)
+        return false; // TODO: error handling
+    _categories.erase(toRemove);
     return true;
 }
 

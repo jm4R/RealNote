@@ -28,7 +28,7 @@ bool addNote(const QModelIndex& position, const QString& name)
 bool removeNote(const QModelIndex& index)
 {
     auto ciIndex = context->notes.translateIndex(index);
-    context->notes.remove(ciIndex.category, ciIndex.item);
+    context->notes.removeItem(ciIndex.category, ciIndex.item);
     return true;
 }
 
