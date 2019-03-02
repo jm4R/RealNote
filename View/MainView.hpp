@@ -28,8 +28,10 @@ private:
     void connectSignals();
 
 signals:
-    void addNote(const QModelIndex& category, const QString& name);
+    void addNote(const QModelIndex& position, const QString& name);
     void removeNote(const QModelIndex& index);
+    void addCategory(const QModelIndex& position, const QString& name);
+    void removeCategory(const QModelIndex& index);
 
 public slots:
     void toggleTextFinder();
@@ -38,6 +40,8 @@ private slots:
     void showContextMenu(const QPoint& point);
     void addNoteRequested();
     void removeNoteRequested();
+    void addCategoryRequested();
+    void removeCategoryRequested();
 
 protected:
     QSize sizeHint() const override;
@@ -53,6 +57,8 @@ public:
 
     QAction* addNoteAction;
     QAction* removeNoteAction;
+    QAction* addCategoryAction;
+    QAction* removeCategoryAction;
 
     QMenu* categoryContextMenu;
     QMenu* noteContextMenu;

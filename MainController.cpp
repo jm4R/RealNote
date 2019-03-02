@@ -47,8 +47,11 @@ MainController::MainController(QObject* parent) : QObject{parent}
     connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
     connect(&window_, &MainWindow::noteChoosed, [](const QModelIndex& index) { cmd::setNote(index); });
     connect(&window_, &MainWindow::addNote,
-            [](const QModelIndex& index, const QString& name) { cmd::addNote(index, name); });
+            [](const QModelIndex& position, const QString& name) { cmd::addNote(position, name); });
     connect(&window_, &MainWindow::removeNote, [](const QModelIndex& index) { cmd::removeNote(index); });
+    connect(&window_, &MainWindow::addCategory,
+            [](const QModelIndex& position, const QString& name) { });
+    connect(&window_, &MainWindow::removeCategory, [](const QModelIndex& index) {  });
 }
 
 void MainController::save() // TODO: make command

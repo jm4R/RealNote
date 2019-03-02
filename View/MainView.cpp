@@ -48,6 +48,8 @@ void MainView::buildActions()
 {
     addNoteAction = QtUtils::action(this, tr("Add note here"), [&] { addNoteRequested(); });
     removeNoteAction = QtUtils::action(this, tr("Remove this note"), [&] { removeNoteRequested(); });
+    addCategoryAction = QtUtils::action(this, tr("Add category here"), [&] { addCategoryRequested(); });
+    removeCategoryAction = QtUtils::action(this, tr("Remove this category"), [&] { removeCategoryRequested(); });
 }
 
 void MainView::buildMenus()
@@ -57,9 +59,10 @@ void MainView::buildMenus()
     {
         auto* menu = categoryContextMenu;
         menu->addAction(addNoteAction);
-        menu->addAction(removeNoteAction);
+        menu->addAction(addCategoryAction);
+        menu->addAction(removeCategoryAction);
         menu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
-        menu->addAction(QtUtils::action(this, tr("Merge with... (TODO)"), [] {}));
+        menu->addAction(QtUtils::action(this, tr("Move to... (TODO)"), [] {}));
     }
 
     noteContextMenu = new QMenu{this};
@@ -67,7 +70,7 @@ void MainView::buildMenus()
         auto* menu = noteContextMenu;
         menu->addAction(removeNoteAction);
         menu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
-        menu->addAction(QtUtils::action(this, tr("Move to... (TODO)"), [] {}));
+        menu->addAction(QtUtils::action(this, tr("Merge with... (TODO)"), [] {}));
     }
 }
 
@@ -99,10 +102,10 @@ void MainView::showContextMenu(const QPoint& point)
     case CategorizedListModel::itInvalid:
         return;
     case CategorizedListModel::itCategory:
-        menu = noteContextMenu;
+        menu = categoryContextMenu;
         break;
     case CategorizedListModel::itItem:
-        menu = categoryContextMenu;
+        menu = noteContextMenu;
         break;
 
     }
@@ -124,7 +127,26 @@ void MainView::removeNoteRequested()
     auto index = treeView->currentIndex();
     if (!index.isValid())
         return;
-    bool confirm = QtUtils::confirmDialog(this, tr("Remove permanently?"));
+    bool confirm = QtUtils::confirmDialog(this, tr("Move note to archive?"));
     if (confirm)
         emit removeNote(index);
+}
+
+void MainView::addCategoryRequested()
+{
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("New category name..."), tr("Category name:"),
+                                         QLineEdit::Normal, tr("New category"), &ok);
+    if (ok && !name.isEmpty())
+        emit addCategory(treeView->currentIndex(), name);
+}
+
+void MainView::removeCategoryRequested()
+{
+    auto index = treeView->currentIndex();
+    if (!index.isValid())
+        return;
+    bool confirm = QtUtils::confirmDialog(this, tr("Move category to archive?"));
+    if (confirm)
+        emit removeCategory(index);
 }

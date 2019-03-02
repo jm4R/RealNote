@@ -24,6 +24,8 @@ public:
     void add(const QString& category, const QString& name);
     void add(int category, int beforeNote, const QString& name);
     void remove(int category, int note);
+    void addCategory(int beforeCategory, const QString& name);
+    void removeCategory(int category);
 
     NoteModel* noteAt(const QModelIndex &index);
     void setLoadedNote(NoteModel &note);
@@ -36,6 +38,7 @@ protected:
 
     bool handleInsertCategory(int beforeCategory, QVariant data) override;
     bool handleInsertItem(int category, int beforeItem, QVariant data) override;
+    bool handleRemoveCategory(int category) override;
     bool handleRemoveItem(int category, int item) override;
 
 signals:

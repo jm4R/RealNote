@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     connect(mainView_->treeView, &QTreeView::activated, this, &MainWindow::noteChoosed);
     connect(mainView_, &MainView::addNote, this, &MainWindow::addNote);
     connect(mainView_, &MainView::removeNote, this, &MainWindow::removeNote);
+    connect(mainView_, &MainView::addCategory, this, &MainWindow::addCategory);
+    connect(mainView_, &MainView::removeCategory, this, &MainWindow::removeCategory);
 
     //connect slots:
     connect(&context->notes, &NotesContainer::loadedChanged, this, &MainWindow::reloadNote);

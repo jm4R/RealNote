@@ -43,6 +43,16 @@ void NotesContainer::remove(int category, int note)
     removeItem(category, note);
 }
 
+void NotesContainer::addCategory(int beforeCategory, const QString &name)
+{
+    bool ok = insertCategory(beforeCategory, name);
+}
+
+void NotesContainer::removeCategory(int category)
+{
+    //bool ok = removeCategory(category);
+}
+
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)
 {
     auto idx = translateIndex(index);

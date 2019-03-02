@@ -18,9 +18,9 @@ bool setNote(const QModelIndex& index)
     return note != nullptr;
 }
 
-bool addNote(const QModelIndex& index, const QString& name)
+bool addNote(const QModelIndex& position, const QString& name)
 {
-    auto ciIndex = context->notes.translateIndex(index);
+    auto ciIndex = context->notes.translateIndex(position);
     context->notes.add(ciIndex.category, ciIndex.item + 1, name);
     return true;
 }
@@ -29,6 +29,20 @@ bool removeNote(const QModelIndex& index)
 {
     auto ciIndex = context->notes.translateIndex(index);
     context->notes.remove(ciIndex.category, ciIndex.item);
+    return true;
+}
+
+bool addCategory(const QModelIndex& position, const QString& name)
+{
+    auto ciIndex = context->notes.translateIndex(position);
+    context->notes.addCategory(ciIndex.category + 1, name);
+    return true;
+}
+
+bool removeCategory(const QModelIndex& index)
+{
+    auto ciIndex = context->notes.translateIndex(index);
+    context->notes.removeCategory(ciIndex.category);
     return true;
 }
 
