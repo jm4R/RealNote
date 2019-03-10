@@ -4,6 +4,7 @@
 #include "Model/ApplicationContext.hpp"
 #include "Model/Global.hpp"
 #include "Model/NoteModel.hpp"
+#include "Themes.hpp"
 
 #include <QApplication>
 #include <QDebug>
@@ -12,10 +13,7 @@
 
 MainController::MainController(QObject* parent) : QObject{parent}
 {
-     QFile file("qrc:/dark.css");
-     const auto qss = QString::fromUtf8(file.readAll());
-     qDebug() << qss;
-     qApp->setStyleSheet("QWidget { background-color: #404244; color: #BBBBBB} QPlainTextEdit { background-color: #000000; color: #EEEEEE } QTreeWidget { background-color: #2E2F30 } LineNumberWidget { background-color: #232323}");
+    qApp->setStyleSheet(Themes::style());
 
     window_.show();
     window_.setNotesTreeModel(context->notes);

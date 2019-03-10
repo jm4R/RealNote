@@ -45,7 +45,8 @@ SOURCES += \
     Model/NoteModel.cpp \
     Model/NotesContainer.cpp \
     Model/ApplicationContext.cpp \
-    Model/CategorizedListModel.cpp
+    Model/CategorizedListModel.cpp \
+    Themes.cpp
 
 HEADERS += \
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorDesign.hpp \
@@ -71,7 +72,8 @@ HEADERS += \
     Model/ApplicationContext.hpp \
     Model/NoteModel.hpp \
     Model/NotesContainer.hpp \
-    Model/CategorizedListModel.hpp
+    Model/CategorizedListModel.hpp \
+    Themes.hpp
 
 INCLUDEPATH += \
     ThirdParty/QCodeEditor/include

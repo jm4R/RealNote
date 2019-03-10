@@ -15,4 +15,9 @@ class TextFinder : public kgl::QCodeEditorTextFinder
     using QCodeEditorTextFinder::QCodeEditorTextFinder;
 };
 
+class TextEditorTheme : public kgl::QCodeEditorDesign
+{
+    using QCodeEditorDesign::QCodeEditorDesign;
+};
+
 #endif // TEXTEDITOR_H

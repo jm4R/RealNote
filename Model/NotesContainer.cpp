@@ -61,7 +61,7 @@ QVariant NotesContainer::categoryData(int category, Qt::ItemDataRole role) const
     case Qt::DisplayRole:
         return _categories[static_cast<std::size_t>(category)]->_name;
     case Qt::DecorationRole:
-        return QColor{Qt::green};
+        return QColor{0xff161718};
     default:
         return {};
     }
@@ -74,7 +74,7 @@ QVariant NotesContainer::itemData(int category, int item, Qt::ItemDataRole role)
     case Qt::DisplayRole:
         return _categories[static_cast<std::size_t>(category)]->_notes[static_cast<std::size_t>(item)]->name();
     case Qt::DecorationRole:
-        return QColor{Qt::blue};
+        return QColor{0xff22242f};
     default:
         return {};
     }

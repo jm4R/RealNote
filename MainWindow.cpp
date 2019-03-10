@@ -6,6 +6,7 @@
 #include "View/TextEditor.hpp"
 #include "Model/ApplicationContext.hpp"
 #include "Model/NoteModel.hpp"
+#include "Themes.hpp"
 
 #include <QShortcut>
 #include <QTreeView>
@@ -18,13 +19,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     mainMenu_ = new MainMenu{this};
     setMenuBar(mainMenu_);
 
-    kgl::QCodeEditorDesign design;
-    design.setLineColumnBackColor(0xff232323);
-    design.setLineColumnSeparatorColor(0xff000000);
-    design.setEditorBackColor(0xff000000);
-    design.setEditorTextColor(0xffeeeeee);
-
-    mainView_->textEdit->setDesign(std::move(design));
+    mainView_->textEdit->setDesign(Themes::textEditTheme());
 
     //generate signals:
     QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this}; //TODO: QAction
