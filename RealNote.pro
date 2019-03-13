@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network widgets
+QT       += core gui network widgets svg
 
 CONFIG += c++17
 
@@ -79,4 +79,4 @@ INCLUDEPATH += \
     ThirdParty/QCodeEditor/include
 
 RESOURCES += \
-    Style.qrc
+    Res/Resources.qrc
