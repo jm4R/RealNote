@@ -16,9 +16,15 @@ include_directories(
 
 add_executable(${PROJECT_NAME}
     ${MOC_SOURCES}
-    main.cpp
-    MainWindow.cpp
+    Commands.cpp
+    FilesUtils.cpp
     MainController.cpp
+    MainWindow.cpp
+    Model/ApplicationContext.cpp
+    Model/CategorizedListModel.cpp
+    Model/NoteModel.cpp
+    Model/NotesContainer.cpp
+    Themes.cpp
     ThirdParty/QCodeEditor/src/Design/QCodeEditorDesign.cpp
     ThirdParty/QCodeEditor/src/Design/QCodeEditorSheets.cpp
     ThirdParty/QCodeEditor/src/Design/QLineColumnPadding.cpp
@@ -31,40 +37,35 @@ add_executable(${PROJECT_NAME}
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorPopup.cpp
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorSlots.cpp
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp
-    View/MainView.cpp
     View/MainMenu.cpp
-    FilesUtils.cpp
-    Model/NoteModel.cpp
-    Model/NotesContainer.cpp
-    Model/ApplicationContext.cpp
-    Model/CategorizedListModel.cpp
-    Themes.cpp
+    View/MainView.cpp
+    main.cpp
 
+    Commands.hpp
+    FilesUtils.hpp
+    MainController.hpp
+    MainWindow.hpp
+    Model/ApplicationContext.hpp
+    Model/CategorizedListModel.hpp
+    Model/Global.hpp
+    Model/NoteModel.hpp
+    Model/NotesContainer.hpp
+    Themes.hpp
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorDesign.hpp
     ThirdParty/QCodeEditor/include/KGL/Design/QCodeEditorSheets.hpp
     ThirdParty/QCodeEditor/include/KGL/Design/QLineColumnPadding.hpp
     ThirdParty/QCodeEditor/include/KGL/Design/QSyntaxRule.hpp
     ThirdParty/QCodeEditor/include/KGL/Design/XmlHelper.hpp
+    ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditor.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorHighlighter.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorLineWidget.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorPopup.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorTextFinder.hpp
-    ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp
-    View/QtUtils.hpp
-    View/MainView.hpp
-    View/TextEditor.hpp
     View/MainMenu.hpp
-    FilesUtils.hpp
-    MainController.hpp
-    MainWindow.hpp
-    Model/Global.hpp
-    Commands.hpp
-    Model/ApplicationContext.hpp
-    Model/NoteModel.hpp
-    Model/NotesContainer.hpp
-    Model/CategorizedListModel.hpp
-    Themes.hpp
+    View/MainView.hpp
+    View/QtUtils.hpp
+    View/TextEditor.hpp
 
     Res/Resources.qrc
 )
