@@ -10,13 +10,7 @@ bool cmd::reloadFromSettings()
     if (c.isValid() && n.isValid())
     {
         auto note = context->notes.findNote(c.toString(), n.toString());
-        if (note)
-        {
-            context->notes.setLoadedNote(*note);
-            context->settings.setValue("current_category", note->category());
-            context->settings.setValue("current_note", note->name());
-        }
-        return note != nullptr;
+        return setNote(note);
     }
     return false;
 }
@@ -32,13 +26,7 @@ bool cmd::saveCurrentNote()
 bool cmd::setNote(const QModelIndex &index)
 {
     auto note = context->notes.noteAt(index);
-    if (note)
-    {
-        context->notes.setLoadedNote(*note);
-        context->settings.setValue("current_category", note->category());
-        context->settings.setValue("current_note", note->name());
-    }
-    return note != nullptr;
+    return setNote(note);
 }
 
 bool cmd::setNote(NoteModel *note)
