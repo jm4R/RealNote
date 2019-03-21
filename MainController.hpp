@@ -13,7 +13,7 @@ public:
     explicit MainController(QObject* parent = nullptr);
 
 private slots:
-    void save();
+    void initApplication();
 
 private:
     MainWindow window_;

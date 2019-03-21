@@ -19,6 +19,7 @@ public:
     QTextDocument& document();
     const QStringList& versions() const;
     QString name() const;
+    QString category() const;
 
     static QString humanReadableVersion(QString version);
 

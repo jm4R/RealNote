@@ -2,11 +2,36 @@
 #define COMMANDS_HPP
 
 #include "Model/ApplicationContext.hpp"
-
-class NoteModel;
+#include "Model/NoteModel.hpp"
 
 namespace cmd
 {
+
+bool reloadFromSettings()
+{
+    QVariant c = context->settings.value("current_category");
+    QVariant n = context->settings.value("current_note");
+    if (c.isValid() && n.isValid())
+    {
+        auto note = context->notes.findNote(c.toString(), n.toString());
+        if (note)
+        {
+            context->notes.setLoadedNote(*note);
+            context->settings.setValue("current_category", note->category());
+            context->settings.setValue("current_note", note->name());
+        }
+        return note != nullptr;
+    }
+    return false;
+}
+
+bool saveCurrentNote()
+{
+    if (!context->note)
+        return false;
+    context->note->save();
+    return true;
+}
 
 bool setNote(const QModelIndex& index)
 {
@@ -14,6 +39,8 @@ bool setNote(const QModelIndex& index)
     if (note)
     {
         context->notes.setLoadedNote(*note);
+        context->settings.setValue("current_category", note->category());
+        context->settings.setValue("current_note", note->name());
     }
     return note != nullptr;
 }

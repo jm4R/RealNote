@@ -15,9 +15,6 @@ MainController::MainController(QObject* parent) : QObject{parent}
 {
     qApp->setStyleSheet(Themes::style());
 
-    window_.show();
-    window_.setNotesTreeModel(context->notes);
-
     {
         QLocalSocket socket;
         socket.connectToServer(Global::appUuid());
@@ -40,7 +37,11 @@ MainController::MainController(QObject* parent) : QObject{parent}
         window_.setWindowState((window_.windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
     });
 
-    connect(&window_, &MainWindow::saveInvoked, this, &MainController::save);
+    initApplication();
+    window_.show();
+    window_.setNotesTreeModel(context->notes);
+
+    connect(&window_, &MainWindow::saveInvoked, [] { cmd::saveCurrentNote(); });
     connect(&window_, &MainWindow::noteChoosed, [](const QModelIndex& index) { cmd::setNote(index); });
     connect(&window_, &MainWindow::addNote,
             [](const QModelIndex& position, const QString& name) { cmd::addNote(position, name); });
@@ -50,9 +51,7 @@ MainController::MainController(QObject* parent) : QObject{parent}
     connect(&window_, &MainWindow::removeCategory, [](const QModelIndex& index) { cmd::removeCategory(index); });
 }
 
-void MainController::save() // TODO: make command
+void MainController::initApplication()
 {
-    if (!context->note)
-        return;
-    context->note->save();
+    cmd::reloadFromSettings();
 }

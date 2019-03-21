@@ -4,6 +4,7 @@
 #include "Model/NotesContainer.hpp"
 
 #include <QApplication>
+#include <QSettings>
 #include <memory>
 
 class ApplicationContext;
@@ -19,7 +20,7 @@ class NoteModel;
 
 class ApplicationContext
 {
-    ApplicationContext() = default;
+    ApplicationContext();
 public:
     friend class Application;
     ApplicationContext(const ApplicationContext&) = delete;
@@ -28,6 +29,7 @@ public:
     // application model:
     NotesContainer notes;
     NoteModel* note;
+    QSettings settings;
 };
 
 inline ApplicationContext* context;

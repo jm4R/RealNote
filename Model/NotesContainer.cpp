@@ -39,6 +39,17 @@ NoteModel* NotesContainer::noteAt(const QModelIndex& index)
         return _categories[static_cast<std::size_t>(idx.category)]->_notes[static_cast<std::size_t>(idx.item)].get();
 }
 
+NoteModel* NotesContainer::findNote(const QString& category, const QString& name) const
+{
+    auto c = std::find_if(_categories.begin(), _categories.end(), [&](auto& c) { return c->_name == category; });
+    if (c==_categories.end())
+        return nullptr;
+    auto n = std::find_if(c->get()->_notes.begin(), c->get()->_notes.end(), [&](auto& n){ return n->name() == name; });
+    if (n==c->get()->_notes.end())
+        return nullptr;
+    return n->get();
+}
+
 void NotesContainer::setLoadedNote(NoteModel& note)
 {
     context->note = &note;

@@ -25,6 +25,7 @@ public:
     void addCategory(int beforeCategory, const QString& name);
 
     NoteModel* noteAt(const QModelIndex &index);
+    NoteModel* findNote(const QString& category, const QString& name) const;
     void setLoadedNote(NoteModel &note);
 
 protected:
