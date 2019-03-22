@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
 
     //connect slots:
     connect(&context->notes, &NotesContainer::loadedChanged, this, &MainWindow::reloadNote);
+
+    context->window = this;
 }
 
 MainWindow::~MainWindow()

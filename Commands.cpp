@@ -2,6 +2,7 @@
 
 #include "Model/ApplicationContext.hpp"
 #include "Model/NoteModel.hpp"
+#include "MainWindow.hpp"
 
 bool cmd::reloadFromSettings()
 {
@@ -40,6 +41,7 @@ bool cmd::setNote(NoteModel *note)
         context->notes.setLoadedNote(*note);
         context->settings.setValue("current_category", note->category());
         context->settings.setValue("current_note", note->name());
+        context->window->setWindowTitle("[" + note->category() + "]  " + note->name());
     }
     return note != nullptr;
 }

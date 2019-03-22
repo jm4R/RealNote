@@ -8,6 +8,8 @@
 #include <memory>
 
 class ApplicationContext;
+class MainWindow;
+class NoteModel;
 
 class Application : public QApplication
 {
@@ -15,8 +17,6 @@ public:
     explicit Application(int argc, char** argv);
     std::unique_ptr<ApplicationContext> context;
 };
-
-class NoteModel;
 
 class ApplicationContext
 {
@@ -30,6 +30,7 @@ public:
     NotesContainer notes;
     NoteModel* note;
     QSettings settings;
+    MainWindow* window;
 };
 
 inline ApplicationContext* context;
