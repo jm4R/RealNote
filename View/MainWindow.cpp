@@ -1,12 +1,11 @@
-#include "MainWindow.hpp"
+#include "View/MainWindow.hpp"
 
-#include "Model/ApplicationContext.hpp"
-#include "View/MainMenu.hpp"
-#include "View/MainView.hpp"
-#include "View/TextEditor.hpp"
 #include "Model/ApplicationContext.hpp"
 #include "Model/NoteModel.hpp"
 #include "Themes.hpp"
+#include "View/MainMenu.hpp"
+#include "View/MainView.hpp"
+#include "View/TextEditor.hpp"
 
 #include <QShortcut>
 #include <QTreeView>
@@ -19,10 +18,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     mainMenu_ = new MainMenu{this};
     setMenuBar(mainMenu_);
 
+    setWindowIcon(QIcon(":/res/icons/icon.png"));
     mainView_->textEdit->setDesign(Themes::textEditTheme());
 
-    //generate signals:
-    QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this}; //TODO: QAction
+    // generate signals:
+    QShortcut* saveShortcut = new QShortcut{QKeySequence{QKeySequence::Save}, this}; // TODO: QAction
     connect(saveShortcut, &QShortcut::activated, this, &MainWindow::saveInvoked);
     QShortcut* findShortcut = new QShortcut{QKeySequence{QKeySequence::Find}, this};
     connect(findShortcut, &QShortcut::activated, [this] { mainView_->toggleTextFinder(); });
@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow{parent}
     connect(mainView_, &MainView::addCategory, this, &MainWindow::addCategory);
     connect(mainView_, &MainView::removeCategory, this, &MainWindow::removeCategory);
 
-    //connect slots:
+    // connect slots:
     connect(&context->notes, &NotesContainer::loadedChanged, this, &MainWindow::reloadNote);
 
     context->window = this;

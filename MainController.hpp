@@ -1,7 +1,7 @@
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
-#include "MainWindow.hpp"
+#include "View/MainWindow.hpp"
 
 #include <QList>
 #include <QObject>

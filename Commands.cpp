@@ -2,7 +2,7 @@
 
 #include "Model/ApplicationContext.hpp"
 #include "Model/NoteModel.hpp"
-#include "MainWindow.hpp"
+#include "View/MainWindow.hpp"
 
 bool cmd::reloadFromSettings()
 {

@@ -19,7 +19,7 @@ add_executable(${PROJECT_NAME}
     Commands.cpp
     FilesUtils.cpp
     MainController.cpp
-    MainWindow.cpp
+    main.cpp
     Model/ApplicationContext.cpp
     Model/CategorizedListModel.cpp
     Model/NoteModel.cpp
@@ -39,12 +39,11 @@ add_executable(${PROJECT_NAME}
     ThirdParty/QCodeEditor/src/Widgets/QCodeEditorTextFinder.cpp
     View/MainMenu.cpp
     View/MainView.cpp
-    main.cpp
+    View/MainWindow.cpp
 
     Commands.hpp
     FilesUtils.hpp
     MainController.hpp
-    MainWindow.hpp
     Model/ApplicationContext.hpp
     Model/CategorizedListModel.hpp
     Model/Global.hpp
@@ -57,13 +56,14 @@ add_executable(${PROJECT_NAME}
     ThirdParty/QCodeEditor/include/KGL/Design/QSyntaxRule.hpp
     ThirdParty/QCodeEditor/include/KGL/Design/XmlHelper.hpp
     ThirdParty/QCodeEditor/include/KGL/KGLConfig.hpp
-    ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditor.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorHighlighter.hpp
+    ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditor.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorLineWidget.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorPopup.hpp
     ThirdParty/QCodeEditor/include/KGL/Widgets/QCodeEditorTextFinder.hpp
     View/MainMenu.hpp
     View/MainView.hpp
+    View/MainWindow.hpp
     View/QtUtils.hpp
     View/TextEditor.hpp
 
