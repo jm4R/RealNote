@@ -12,7 +12,11 @@ bool cmd::reloadFromSettings()
         auto note = context->notes.findNote(c.toString(), n.toString());
         return setNote(note);
     }
-    return false;
+    else
+    {
+        auto firstNote = context->notes.noteAt(CategorizedListModel::Index{0, 0});
+        return setNote(firstNote);
+    }
 }
 
 bool cmd::saveCurrentNote()

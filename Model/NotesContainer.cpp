@@ -33,7 +33,13 @@ void NotesContainer::addCategory(int beforeCategory, const QString &name)
 NoteModel* NotesContainer::noteAt(const QModelIndex& index)
 {
     auto idx = translateIndex(index);
-    if (idx.category == -1 || idx.item == -1)
+    return noteAt(idx);
+}
+
+NoteModel* NotesContainer::noteAt(const CategorizedListModel::Index& idx)
+{
+    if (idx.category >= categoriesCount() || idx.category < 0 || idx.item >= categoryItems(idx.category)
+        || idx.item < 0)
         return nullptr;
     else
         return _categories[static_cast<std::size_t>(idx.category)]->_notes[static_cast<std::size_t>(idx.item)].get();
@@ -42,10 +48,10 @@ NoteModel* NotesContainer::noteAt(const QModelIndex& index)
 NoteModel* NotesContainer::findNote(const QString& category, const QString& name) const
 {
     auto c = std::find_if(_categories.begin(), _categories.end(), [&](auto& c) { return c->_name == category; });
-    if (c==_categories.end())
+    if (c == _categories.end())
         return nullptr;
-    auto n = std::find_if(c->get()->_notes.begin(), c->get()->_notes.end(), [&](auto& n){ return n->name() == name; });
-    if (n==c->get()->_notes.end())
+    auto n = std::find_if(c->get()->_notes.begin(), c->get()->_notes.end(), [&](auto& n) { return n->name() == name; });
+    if (n == c->get()->_notes.end())
         return nullptr;
     return n->get();
 }
