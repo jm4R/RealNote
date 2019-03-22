@@ -122,6 +122,8 @@ void NoteModel::archiveCurrentVersion()
     QDir dir = getHistoricalVersionsPath();
     QString timestamp = QString::number(QDateTime::currentMSecsSinceEpoch());
     const auto newFilePath = dir.filePath(timestamp);
+    if (!QFile::exists(oldFilePath))
+        return;
 
     qDebug() << "Archiving " << oldFilePath << " to " << newFilePath;
     if (!QFile::rename(oldFilePath, newFilePath))
