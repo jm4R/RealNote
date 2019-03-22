@@ -8,16 +8,25 @@ bool cmd::reloadFromSettings()
 {
     QVariant c = context->settings.value("current_category");
     QVariant n = context->settings.value("current_note");
+    bool loaded = false;
     if (c.isValid() && n.isValid())
     {
         auto note = context->notes.findNote(c.toString(), n.toString());
-        return setNote(note);
+        loaded =  setNote(note);
     }
-    else
+    if (!loaded)
     {
         auto firstNote = context->notes.noteAt(CategorizedListModel::Index{0, 0});
-        return setNote(firstNote);
+        loaded =  setNote(firstNote);
     }
+    if (!loaded)
+    {
+        context->notes.addCategory(0, QObject::tr("FAST NOTES"));
+        context->notes.add(0, 0, QObject::tr("Default"));
+        auto firstNote = context->notes.noteAt(CategorizedListModel::Index{0, 0});
+        loaded =  setNote(firstNote);
+    }
+    return loaded;
 }
 
 bool cmd::saveCurrentNote()

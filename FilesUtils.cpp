@@ -29,6 +29,13 @@ QString dataLocation()
 QDir dataDir()
 {
     QDir dir{Dir::dataLocation()};
+    if (!dir.exists())
+    {
+        if (!dir.mkpath("."))
+        {
+            // TODO
+        }
+    }
     Dir::cdOrCreate(dir, Global::notesDirName());
     return dir;
 }

@@ -117,6 +117,8 @@ CategorizedListModel::Index CategorizedListModel::translateIndex(const QModelInd
 
 QModelIndex CategorizedListModel::translateIndex(const Index& index) const
 {
+    if (index.category >= categoriesCount() || index.item >= categoriesCount())
+        return {};
     if (index.category == -1 && index.item == -1)
         return {};
     if (index.item == -1 /*&& index.category != -1*/)
