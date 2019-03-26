@@ -18,6 +18,9 @@ QPlainTextEdit, QTreeView {
     background-color: #2E2F30;
     color: #EEEEEE;
 }
+QMenu::item:selected{
+    background-color: #2E2F30;
+}
 
 )AA";
 }
