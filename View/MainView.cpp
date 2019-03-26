@@ -20,9 +20,6 @@ void MainView::buildWidgets()
     treeView->setHeaderHidden(true);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    addButton = new QButton{tr("Add"), this};
-    removeButton = new QButton{tr("Remove"), this};
-
     textFinder->layout()->setMargin(0);
     textFinder->layout()->setSpacing(2);
     textFinder->hide();
@@ -30,14 +27,7 @@ void MainView::buildWidgets()
     auto* editorWidget = new QFrame{this};
     QtUtils::vLayout(editorWidget, textEdit, textFinder)->setMargin(0);
 
-    auto* treeWidget = new QFrame{this};
-    auto* buttonsLayout = QtUtils::hLayout(nullptr, addButton, removeButton); //TODO: memory leak?
-    buttonsLayout->setMargin(0);
-    auto* treeLayout = QtUtils::vLayout(treeWidget, treeView, buttonsLayout);
-    treeLayout->setMargin(0);
-
-
-    auto* splitter = QtUtils::splitter(this, treeWidget, editorWidget);
+    auto* splitter = QtUtils::splitter(this, treeView, editorWidget);
     splitter->setStretchFactor(0, 0);
     splitter->setStretchFactor(1, 1);
     auto* mainLayout = QtUtils::hLayout(this, splitter);
@@ -78,8 +68,6 @@ void MainView::buildMenus()
 void MainView::connectSignals()
 {
     connect(treeView, &QTreeView::customContextMenuRequested, this, &MainView::showContextMenu);
-    connect(addButton, &QButton::clicked, this, &MainView::addNoteRequested);
-    connect(removeButton, &QButton::clicked, this, &MainView::removeNoteRequested);
 }
 
 QSize MainView::sizeHint() const

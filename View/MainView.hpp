@@ -53,8 +53,6 @@ public:
     QTreeView* treeView;
     TextEditor* textEdit;
     TextFinder* textFinder;
-    QButton* addButton;
-    QButton* removeButton;
 
     QMenu* categoryContextMenu;
     QMenu* noteContextMenu;
