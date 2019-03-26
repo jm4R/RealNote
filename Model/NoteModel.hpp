@@ -20,6 +20,7 @@ public:
     const QStringList& versions() const;
     QString name() const;
     QString category() const;
+    bool rename(const QString& newName);
 
     static QString humanReadableVersion(QString version);
 

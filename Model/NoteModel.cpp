@@ -44,7 +44,7 @@ void NoteModel::load()
     }
 }
 
-void NoteModel::save()
+void NoteModel::save() //TODO return bool and check
 {
     if (_state == LOADED && !_document.isModified())
         return;
@@ -78,6 +78,16 @@ QString NoteModel::name() const
 QString NoteModel::category() const
 {
     return _categoryName;
+}
+
+bool NoteModel::rename(const QString &newName)
+{
+    QDir dir = Dir::dataDir();
+    Dir::cdOrCreate(dir, _categoryName);
+    bool ok = dir.rename(_fileName, newName);
+    if (ok)
+        _fileName = newName;
+    return ok;
 }
 
 QString NoteModel::humanReadableVersion(QString version)

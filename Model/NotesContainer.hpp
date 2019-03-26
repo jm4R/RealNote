@@ -26,6 +26,8 @@ public:
 
     NoteModel* noteAt(const QModelIndex &index);
     NoteModel* noteAt(const Index& index);
+    NoteModel* noteAt(int category, int note);
+    const NoteModel* noteAt(int category, int note) const;
     NoteModel* findNote(const QString& category, const QString& name) const;
     void setLoadedNote(NoteModel &note);
 
@@ -39,6 +41,16 @@ protected:
     bool handleInsertItem(int category, int beforeItem, QVariant data) override;
     bool handleRemoveCategory(int category) override;
     bool handleRemoveItem(int category, int item) override;
+    bool handleResetCategory(int category, const QVariant& value, int role = Qt::EditRole) override;
+    bool handleResetItem(int category, int item, const QVariant& value, int role = Qt::EditRole) override;
+
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+private:
+    Category* categoryAt(int category);
+    const Category* categoryAt(int category) const;
+    bool categoryExists(int category) const;
+    bool noteExists(int category, int note) const;
 
 signals:
     void loadedChanged();

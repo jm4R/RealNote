@@ -28,6 +28,7 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
     //modify data:
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     bool insertCategory(int beforeCategory, QVariant data);
     bool insertItem(int category, int beforeItem, QVariant data);
     bool removeCategory(int category);
@@ -55,6 +56,8 @@ protected:
     virtual bool handleInsertItem(int category, int beforeItem, QVariant data);
     virtual bool handleRemoveCategory(int category);
     virtual bool handleRemoveItem(int category, int item);
+    virtual bool handleResetCategory(int category, const QVariant& value, int role = Qt::EditRole);
+    virtual bool handleResetItem(int category, int item, const QVariant& value, int role = Qt::EditRole);
 };
 
 #endif // CategorizedListModel_H

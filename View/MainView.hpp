@@ -42,6 +42,7 @@ private slots:
     void removeNoteRequested();
     void addCategoryRequested();
     void removeCategoryRequested();
+    void renameRequested();
 
 protected:
     QSize sizeHint() const override;
@@ -55,13 +56,15 @@ public:
     QButton* addButton;
     QButton* removeButton;
 
+    QMenu* categoryContextMenu;
+    QMenu* noteContextMenu;
+
+private:
     QAction* addNoteAction;
     QAction* removeNoteAction;
     QAction* addCategoryAction;
     QAction* removeCategoryAction;
-
-    QMenu* categoryContextMenu;
-    QMenu* noteContextMenu;
+    QAction* editAction;
 };
 
 #endif // MAINVIEW_H

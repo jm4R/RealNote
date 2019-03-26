@@ -69,6 +69,28 @@ int CategorizedListModel::columnCount(const QModelIndex& /*parent*/) const
     return 1;
 }
 
+bool CategorizedListModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    Index idx = translateIndex(index);
+    bool changed = false;
+    switch (indexType(index))
+    {
+    case itInvalid:
+        break;
+    case itCategory:
+        changed = handleResetCategory(idx.category, value, role);
+        break;
+    case itItem:
+        changed = handleResetItem(idx.category, idx.item, value, role);
+        break;
+    }
+
+    if (changed)
+        emit dataChanged(index, index, {role});
+
+    return changed;
+}
+
 bool CategorizedListModel::insertCategory(int beforeCategory, QVariant data)
 {
     beginInsertRows({}, beforeCategory, beforeCategory + 1);
@@ -152,6 +174,16 @@ bool CategorizedListModel::handleRemoveCategory(int)
 }
 
 bool CategorizedListModel::handleRemoveItem(int, int)
+{
+    return false;
+}
+
+bool CategorizedListModel::handleResetCategory(int, const QVariant&, int)
+{
+    return false;
+}
+
+bool CategorizedListModel::handleResetItem(int, int, const QVariant&, int)
 {
     return false;
 }

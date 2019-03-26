@@ -50,6 +50,7 @@ void MainView::buildActions()
     removeNoteAction = QtUtils::action(this, tr("Remove this note"), [&] { removeNoteRequested(); });
     addCategoryAction = QtUtils::action(this, tr("Add category here"), [&] { addCategoryRequested(); });
     removeCategoryAction = QtUtils::action(this, tr("Remove this category"), [&] { removeCategoryRequested(); });
+    editAction = QtUtils::action(this, tr("Rename"), [&]{ renameRequested(); });
 }
 
 void MainView::buildMenus()
@@ -61,16 +62,16 @@ void MainView::buildMenus()
         menu->addAction(addNoteAction);
         menu->addAction(addCategoryAction);
         menu->addAction(removeCategoryAction);
-        menu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
-        menu->addAction(QtUtils::action(this, tr("Move to... (TODO)"), [] {}));
+        menu->addAction(editAction);
+        //menu->addAction(QtUtils::action(this, tr("Move to... (TODO)"), [] {}));
     }
 
     noteContextMenu = new QMenu{this};
     {
         auto* menu = noteContextMenu;
         menu->addAction(removeNoteAction);
-        menu->addAction(QtUtils::action(this, tr("Rename (TODO)"), [] {}));
-        menu->addAction(QtUtils::action(this, tr("Merge with... (TODO)"), [] {}));
+        menu->addAction(editAction);
+        //menu->addAction(QtUtils::action(this, tr("Merge with... (TODO)"), [] {}));
     }
 }
 
@@ -149,4 +150,10 @@ void MainView::removeCategoryRequested()
     bool confirm = QtUtils::confirmDialog(this, tr("Move category to archive?"));
     if (confirm)
         emit removeCategory(index);
+}
+
+void MainView::renameRequested()
+{
+    auto index = treeView->currentIndex();
+    treeView->edit(index);
 }
