@@ -56,7 +56,7 @@ NoteModel* NotesContainer::noteAt(const CategorizedListModel::Index& idx)
 NoteModel *NotesContainer::noteAt(int category, int note)
 {
     if (!noteExists(category, note))
-        return unexpected(nullptr);
+        return nullptr;
     else
         return categoryAt(category)->_notes[static_cast<std::size_t>(note)].get();
 }

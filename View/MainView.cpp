@@ -18,6 +18,7 @@ void MainView::buildWidgets()
 
     treeView = new QTreeView{this};
     treeView->setHeaderHidden(true);
+    treeView->setEditTriggers(treeView->editTriggers() & ~QTreeView::DoubleClicked);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     textFinder->layout()->setMargin(0);
