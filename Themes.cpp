@@ -34,6 +34,7 @@ TextEditorTheme Themes::textEditTheme()
     theme.setEditorTextColor(0xffeeeeee);
     theme.setEditorBorder({1, 1, 1, 1});
     theme.setEditorBorderColor(0xff232425);
+    theme.setLineColumnPadding({8, 0, 8, 0});
     return theme;
 }
 

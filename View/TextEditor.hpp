@@ -1,21 +1,21 @@
 #ifndef TEXTEDITOR_H
 #define TEXTEDITOR_H
 
-#include <KGL/Widgets/QCodeEditor.hpp>
-#include <KGL/Widgets/QCodeEditorTextFinder.hpp>
+#include <QCodeEditor/QCodeEditor.hpp>
+#include <QCodeEditor/QCodeEditorTextFinder.hpp>
 #include <QWidget>
 
-class TextEditor : public kgl::QCodeEditor
+class TextEditor : public QCodeEditor
 {
     using QCodeEditor::QCodeEditor;
 };
 
-class TextFinder : public kgl::QCodeEditorTextFinder
+class TextFinder : public QCodeEditorTextFinder
 {
     using QCodeEditorTextFinder::QCodeEditorTextFinder;
 };
 
-class TextEditorTheme : public kgl::QCodeEditorDesign
+class TextEditorTheme : public QCodeEditorDesign
 {
     using QCodeEditorDesign::QCodeEditorDesign;
 };
