@@ -178,7 +178,7 @@ bool NotesContainer::handleRemoveCategory(int category)
 
 bool NotesContainer::handleRemoveItem(int category, int item)
 {
-    if (noteExists(category, item))
+    if (!noteExists(category, item))
         return unexpected(false);
 
     auto& theCategory = *_categories[std::size_t(category)];

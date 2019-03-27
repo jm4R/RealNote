@@ -101,9 +101,11 @@ bool CategorizedListModel::insertCategory(int beforeCategory, QVariant data)
 
 bool CategorizedListModel::insertItem(int category, int beforeItem, QVariant data)
 {
-    beginInsertRows(categoryToIndex(category), beforeItem, beforeItem + 1);
+    const auto parentIndex = categoryToIndex(category);
+    beginInsertRows(parentIndex, beforeItem, beforeItem + 1);
     bool res = handleInsertItem(category, beforeItem, std::move(data));
     endInsertRows();
+    dataChanged(parentIndex, parentIndex);
     return res;
 }
 
