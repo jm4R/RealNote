@@ -7,44 +7,44 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 #QCodeEditor
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/QCodeEditor)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third_party/QCodeEditor)
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/src
     ${QCODEEDITOR_INCLUDE_ROOT}
 )
 
 add_executable(${PROJECT_NAME}
     ${MOC_SOURCES}
-    Commands.cpp
-    FilesUtils.cpp
-    MainController.cpp
-    main.cpp
-    Model/ApplicationContext.cpp
-    Model/CategorizedListModel.cpp
-    Model/NoteModel.cpp
-    Model/NotesContainer.cpp
-    Themes.cpp
-    View/MainMenu.cpp
-    View/MainView.cpp
-    View/MainWindow.cpp
+    src/Commands.cpp
+    src/FilesUtils.cpp
+    src/MainController.cpp
+    src/main.cpp
+    src/Model/ApplicationContext.cpp
+    src/Model/CategorizedListModel.cpp
+    src/Model/NoteModel.cpp
+    src/Model/NotesContainer.cpp
+    src/Themes.cpp
+    src/View/MainMenu.cpp
+    src/View/MainView.cpp
+    src/View/MainWindow.cpp
 
-    Commands.hpp
-    FilesUtils.hpp
-    MainController.hpp
-    Model/ApplicationContext.hpp
-    Model/CategorizedListModel.hpp
-    Model/Global.hpp
-    Model/NoteModel.hpp
-    Model/NotesContainer.hpp
-    Themes.hpp
-    View/MainMenu.hpp
-    View/MainView.hpp
-    View/MainWindow.hpp
-    View/QtUtils.hpp
-    View/TextEditor.hpp
+    src/Commands.hpp
+    src/FilesUtils.hpp
+    src/MainController.hpp
+    src/Model/ApplicationContext.hpp
+    src/Model/CategorizedListModel.hpp
+    src/Model/Global.hpp
+    src/Model/NoteModel.hpp
+    src/Model/NotesContainer.hpp
+    src/Themes.hpp
+    src/View/MainMenu.hpp
+    src/View/MainView.hpp
+    src/View/MainWindow.hpp
+    src/View/QtUtils.hpp
+    src/View/TextEditor.hpp
 
-    Res/Resources.qrc
+    res/Resources.qrc
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
